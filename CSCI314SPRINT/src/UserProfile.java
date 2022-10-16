@@ -8,6 +8,9 @@
  */
 public class UserProfile {
     
+    public UserProfile()
+    {
+    }
     //SystemAdmin
     //ConferenceChair
     //Reviewer

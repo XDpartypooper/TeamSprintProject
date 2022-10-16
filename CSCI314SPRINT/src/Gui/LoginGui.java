@@ -5,6 +5,8 @@
  */
 package Gui;
 import User.*;
+import javax.swing.*;
+
 
 /**
  *
@@ -103,10 +105,19 @@ public class LoginGui extends javax.swing.JFrame {
 
         //take data from jTextField1
         //take data from jPasswordField1
-        
+            
+        if((Username.isEmpty()) || (Password.isEmpty()))
+        {
+            //error message pop up if empty
+            JFrame E=new JFrame();
+            JOptionPane.showMessageDialog(E,"invalid username or password","ERROR",JOptionPane.ERROR_MESSAGE);
+        } 
+        else
+        {
         //call login() with the data above
         U.login(Username, Password);// call function login From user.user    
-        ClosePanel();
+        ClosePanel();//close login screen
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

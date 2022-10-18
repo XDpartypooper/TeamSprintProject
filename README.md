@@ -10,3 +10,6 @@ added error message if login with empty fields(username,password)-Roy 16/10/22
 added connection to DB,
 code will verify if user + password is correct 
 and return profile type that goes to the profile type page - Roy 18/10/22
+
+
+ Added create account page , will check if username or email is empty, will only print out the data - Roy 18/10/22

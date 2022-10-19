@@ -12,5 +12,9 @@ code will verify if user + password is correct
 (added menu for the 4 profile types)
 and return profile type that goes to the profile type page - Roy 18/10/22
 
-
  Added create account page , will check if username or email is empty, will only print out the data - Roy 18/10/22
+
+create fuction connect to db 
+pop up to tell that its created
+needa check if email and user exsist or not in db
+view account check db - Roy 19/10/22

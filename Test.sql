@@ -11,13 +11,14 @@ CREATE TABLE Users  (
 CONSTRAINT users_PKEY PRIMARY KEY (UserName, ID)
 );
 
+-- insert dummy data for the 4 profiles
 INSERT INTO Users VALUES ('Roy','Password1','Bruh@uow.com','4','001');
 INSERT INTO Users VALUES ('Author','Password2','Bruh@uow.com','1','002');
 INSERT INTO Users VALUES ('ConChair','Password3','Bruh@uow.com','2','003');
 INSERT INTO Users VALUES ('Reviewer','Password4','Bruh@uow.com','3','004');
 
-select * from users;
+select * from users; -- view table users
 
-create database sprint;
+create database sprint;-- to create the db
 
 

@@ -28,6 +28,16 @@ public class User {
         this.Email=Email;
         this.ProfileType=ProfileType;
     }
+    
+    public User(String name,String Password,String Email,String ProfileType,String ID)
+    {
+        //create account 
+        this.UserName=name;
+        this.Password=Password;
+        this.Email=Email;
+        this.ProfileType=ProfileType;
+        this.ID=ID;
+    }
 
     //login 
     public void login(String UserName,String Password) throws SQLException, ClassNotFoundException
@@ -76,13 +86,10 @@ public class User {
                 else
                 {
                     throw new SQLException();
-                }
-            
+                }      
                 conn.close();
         }
    
-    
-    
     //logout
     public void logout()
     {
@@ -91,5 +98,9 @@ public class User {
        new LoginGui().setVisible(true);
     }
     
-    
+     public String[] GetProfile()
+    {
+        String file[]={UserName,Password,Email,ProfileType,ID};
+        return file;
+    }
 }

@@ -1,8 +1,8 @@
 package User;
 
 /*
-The data for the current user 
-superclass for ConChair,reviwer,systemadmin,author
+ ConChair,reviwer,systemadmin,author
+
  */
 
 /**
@@ -30,11 +30,7 @@ public class UserProfile {
         this.ID=ID;
     }
     
-    public String[] GetProfile()
-    {
-        String file[]={UserName,Password,Email,ProfileType,ID};
-        return file;
-    }
+   
     //SystemAdmin
     //ConChair
     //Reviewer

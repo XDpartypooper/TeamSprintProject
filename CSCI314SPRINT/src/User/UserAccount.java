@@ -142,49 +142,51 @@ public class UserAccount {
     }
     
     //view
-    public ArrayList<UserProfile> ViewAccount() throws SQLException
+    public ArrayList<User> ViewAccount() throws SQLException
     {
         
         java.sql.Connection conn=null;
         ResultSet rs =null;
         boolean Check=false;
-        String UserData[][] = null;
-        int Row = 0;
-
+ 
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM users ");  
+        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM users order by ID asc");  
         
         rs = mySmt.executeQuery();
         
-        ArrayList<UserProfile> al = new ArrayList<UserProfile>();
+        ArrayList<User> al = new ArrayList<User>();
         
          while(rs.next()) //find works
          {
                 ProfileType=rs.getString(4);
      
-                if(ProfileType =="1")
+                if("1".equals(ProfileType))
                 {
                     ProfileType="Author";
                 }
-                if(ProfileType== "2")
+                if("2".equals(ProfileType))
                 {
                     ProfileType="Confernce Chair";
                 }
-                if(ProfileType =="3")
+                if("3".equals(ProfileType))
                 {
                     ProfileType="Reviwer";
                 }
-                if(ProfileType== "4")
+                if("4".equals(ProfileType))
                 {
                     ProfileType="System Admin";
                 }
                 
-                UserProfile UP = new UserProfile(rs.getString(1),rs.getString(2),rs.getString(3),ProfileType,rs.getString(5));
+                User UP = new User(rs.getString(1),rs.getString(2),rs.getString(3),ProfileType,rs.getString(5));
                 al.add(UP);
                        
             Check=true;
          }
-
+         
+         if(Check==false)
+         {
+             throw new SQLException();
+         }   
          conn.close();
         return al;
     }

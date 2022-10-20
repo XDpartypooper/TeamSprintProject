@@ -19,3 +19,5 @@ create fuction connect to db
 pop up to tell that its created
 needa check if email and user exsist or not in db
 view account check db - Roy 19/10/22
+
+small bug fixes - Roy 20/10/22

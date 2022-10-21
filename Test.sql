@@ -20,5 +20,3 @@ INSERT INTO Users VALUES ('Reviewer','Password4','Bruh4@uow.com','3','004');
 select * from users; -- view table users
 
 create database sprint;-- to create the db
-
-

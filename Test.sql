@@ -12,7 +12,7 @@ CREATE TABLE Users  (
 CONSTRAINT users_PKEY PRIMARY KEY (UserName, ID)
 );
 -- insert dummy data for the 4 profiles
-INSERT INTO Users VALUES ('Roy','Password1','Bruh1@uow.com','SystemAdmin','001');
+INSERT INTO Users VALUES ('Roy','Password1','Bruh1@uow.com','System Admin','001');
 INSERT INTO Users VALUES ('Author','Password2','Bruh2@uow.com','Author','002');
 INSERT INTO Users VALUES ('ConChair','Password3','Bruh3@uow.com','Conference Chair','003');
 INSERT INTO Users VALUES ('Reviewer','Password4','Bruh4@uow.com','Reviwer','004');
@@ -25,7 +25,7 @@ CREATE TABLE usertype  (
 CONSTRAINT users_PKEY PRIMARY KEY (ProfileType)
 );
 -- insert dummy data for the 4 profiles
-INSERT INTO usertype VALUES ('SystemAdmin');
+INSERT INTO usertype VALUES ('System Admin');
 INSERT INTO usertype VALUES ('Author');
 INSERT INTO usertype VALUES ('Conference Chair');
 INSERT INTO usertype VALUES ('Reviwer');

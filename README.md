@@ -23,4 +23,7 @@ view account check db - Roy 19/10/22
 small bug fixes - Roy 20/10/22
 
 windows now appear in middle of screen 
-restructing of User and Userprofile classes - Roy 21/10/22
+HUGE GUI UPDATES 
+and Class restructuring (restructing of User and Userprofile classes) - Roy 21/10/22
+
+

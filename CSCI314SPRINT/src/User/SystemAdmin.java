@@ -19,6 +19,7 @@ public class SystemAdmin extends UserProfile{
        public void GotoAccCre() throws SQLException
     {
          new AccountCreate().setVisible(true);
+         //DONT NEED ALREADY but keep first
     }
     
     public void GotoAccView() throws SQLException
@@ -26,9 +27,9 @@ public class SystemAdmin extends UserProfile{
          new ViewUsers().setVisible(true);
     }
     
-    public void GotoProfCre() throws SQLException
+    public void GoProfView() throws SQLException
     {
-      //   new ProfileUsers().setVisible(true);
-      //go to the gui for userprofile creation
+      //   new ViewProfiles().setVisible(true);
+      //go to the gui for userprofile 
     }
 }

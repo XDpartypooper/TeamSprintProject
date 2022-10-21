@@ -205,12 +205,9 @@ public class ViewUsers extends javax.swing.JFrame {
                 //cannot delete sys admin for obv reasons
                  throw new SQLException();
             }
-            
-            
+                       
             if (CHECK==true)
-            {
-                
-                
+            {   
                 String name=SAC.GetNameCon(ID);
 
                JFrame c=new JFrame();
@@ -249,6 +246,15 @@ public class ViewUsers extends javax.swing.JFrame {
                 JFrame e=new JFrame();
                 JOptionPane.showMessageDialog(null,"No Such User","ERROR",JOptionPane.ERROR_MESSAGE);
                 throw new SQLException();
+            }
+            
+            if("001".equals(ID))
+            {
+                JFrame e=new JFrame();
+                CHECK=false;
+                JOptionPane.showMessageDialog(null,"Unable to change Origial System Admin to other Type of User","ERROR",JOptionPane.ERROR_MESSAGE);
+                //cannot update sys admin for obv reasons
+                 throw new SQLException();
             }
             
             if (CHECK==true)

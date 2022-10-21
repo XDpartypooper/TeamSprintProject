@@ -58,7 +58,7 @@ public class User {
                         //Reviwer
                         new ReviewerMenu().setVisible(true);
                     break;
-                    case "SystemAdmin":
+                    case "System Admin":
                         //system admin
                         new SystemAdminMenu().setVisible(true);
                     break;                                   

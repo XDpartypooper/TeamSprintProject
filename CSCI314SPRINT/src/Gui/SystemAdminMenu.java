@@ -25,6 +25,7 @@ public class SystemAdminMenu extends javax.swing.JFrame {
      */
     public SystemAdminMenu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

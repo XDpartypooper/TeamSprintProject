@@ -7,6 +7,6 @@ package User;
  *
  * @author XDpartypooper
  */
-public class Reviewer extends UserProfile{
+public class Reviewer extends User{
     
 }

@@ -1,12 +1,10 @@
 package User;
 
 import Gui.*;
-import java.awt.List;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -20,13 +18,13 @@ only system admin has access to this
 /**
  @author XDpartypooper
  */
-public class UserAccount {
-    String UserName;   //1
-    String Password;   //2
-    String Email;      //3
-    String ProfileType;//4
+public class UserAccount extends SystemAdmin{
+    //String UserName;   //1
+    //String Password;   //2
+    //String Email;      //3
+    //String ProfileType;//4
     //1=Author , 2=ConChair, 3=Reviwer, 4=SystemAdmin
-    String ID;         //5  ( will be last user+1)
+     //String ID;         //5  (new users will be last user+1)
     
     public UserAccount()
     {
@@ -111,10 +109,10 @@ public class UserAccount {
              mySmt.setString(4, ProfileType);//Profile type
              mySmt.setString(5, ID);//ID
              
-                mySmt.executeUpdate();
+             mySmt.executeUpdate();
                 
-                JFrame f=new JFrame();
-                JOptionPane.showMessageDialog(f,"Account succesfully created.");
+             JFrame f=new JFrame();
+             JOptionPane.showMessageDialog(f,"Account succesfully created.");
               
          }
          else
@@ -191,9 +189,16 @@ public class UserAccount {
         return al;
     }
    
-    //update
-    void UpdateAccount()
+    //update?
+    public void UpdateAccount()
     {
+        
+    }
+    
+    //delete? 
+    public void DeleteAccount()
+    {
+        
     }
   
     

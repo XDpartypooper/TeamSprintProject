@@ -20,15 +20,7 @@ public class User {
     {
         //default 
     }
-    public User(String name,String Password,String Email,String ProfileType)
-    {
-        //create account 
-        this.UserName=name;
-        this.Password=Password;
-        this.Email=Email;
-        this.ProfileType=ProfileType;
-    }
-    
+   
     public User(String name,String Password,String Email,String ProfileType,String ID)
     {
         //create account 
@@ -51,6 +43,7 @@ public class User {
         mySmt.setString(1, UserName);
         mySmt.setString(2, Password);
  
+        
             rs = mySmt.executeQuery();
             if(rs.next()) // log in works
             {            

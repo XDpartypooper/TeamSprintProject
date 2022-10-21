@@ -21,6 +21,7 @@ public class ReviewerMenu extends javax.swing.JFrame {
      */
     public ReviewerMenu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

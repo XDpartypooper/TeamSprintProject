@@ -7,6 +7,6 @@ package User;
  *
  * @author XDpartypooper
  */
-public class SystemAdmin extends UserProfile{
+public class SystemAdmin extends User{
     
 }

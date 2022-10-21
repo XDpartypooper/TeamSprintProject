@@ -21,6 +21,7 @@ public class ConChairMenu extends javax.swing.JFrame {
      */
     public ConChairMenu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

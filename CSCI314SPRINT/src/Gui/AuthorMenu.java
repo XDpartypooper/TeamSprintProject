@@ -21,6 +21,7 @@ public class AuthorMenu extends javax.swing.JFrame {
      */
     public AuthorMenu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

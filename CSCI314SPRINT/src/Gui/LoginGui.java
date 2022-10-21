@@ -22,6 +22,7 @@ public class LoginGui extends javax.swing.JFrame {
      */
     public LoginGui() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -116,25 +117,24 @@ public class LoginGui extends javax.swing.JFrame {
         if((Username.isEmpty()) || (Password.isEmpty()))
         {
             //error message pop up if empty
-            JFrame E=new JFrame();
-            JOptionPane.showMessageDialog(E,"No username or password","ERROR",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"No username or password","ERROR",JOptionPane.ERROR_MESSAGE);
         } 
         else
         {
             try {
                 //call login() with the data above
-                // call function login From user.user   
+                // call function login From login controller   
                 LoginController LC=new LoginController();//make user obj
                 LC.LoginCon(Username,Password);
                 ClosePanel();//close login screen
-            }
+            }      
             catch(SQLException | NullPointerException e)   
             {
                 JOptionPane.showMessageDialog(null,"invalid username or password","ERROR",JOptionPane.ERROR_MESSAGE);   
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LoginGui.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            catch (ClassNotFoundException ex) {                  
+                Logger.getLogger(LoginGui.class.getName()).log(Level.SEVERE, null, ex);
+            }       
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -184,7 +184,7 @@ public class LoginGui extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            public void run() {              
                 new LoginGui().setVisible(true);
                 
             }

@@ -7,6 +7,8 @@ package User;
  *
  * @author XDpartypooper
  */
-public class ConChair extends UserProfile{
+public class ConChair extends User{
+    
+    
     
 }

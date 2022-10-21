@@ -43,9 +43,9 @@ CREATE TABLE Papers  (
 	PaperName				VARCHAR(50)		NOT NULL,
 	AuthorID   		 		VARCHAR(4)		NOT NULL, 
 	allocatedID				VARCHAR(4),
-	SubmittedDate			VARCHAR(20)		NOT NULL,
+	SubmittedDate				VARCHAR(20)		NOT NULL,
 	
-	--Email					VARCHAR(50)		NOT NULL,
+	--Email				VARCHAR(50)		NOT NULL,
 	--ProfileType 			VARCHAR(15)		NOT NULL,
 	
 CONSTRAINT Papers_PKEY PRIMARY KEY (UserName, ID)

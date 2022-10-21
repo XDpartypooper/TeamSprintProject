@@ -7,13 +7,13 @@ import java.sql.*;
 /**
   @author XDpartypooper
   Use class that has login and log out
+  ITS OWN IDEPENDENT CLASS
  */
 public class User {
     String UserName;   //1
     String Password;   //2
     String Email;      //3
     String ProfileType;//4
-    //1=Author , 2=ConChair, 3=Reviwer, 4=SystemAdmin
     String ID;         //5
 
     public User()
@@ -21,16 +21,6 @@ public class User {
         //default 
     }
    
-    public User(String name,String Password,String Email,String ProfileType,String ID)
-    {
-        //create account 
-        this.UserName=name;
-        this.Password=Password;
-        this.Email=Email;
-        this.ProfileType=ProfileType;
-        this.ID=ID;
-    }
-
     //login 
     public void login(String UserName,String Password) throws SQLException, ClassNotFoundException
     {
@@ -56,25 +46,23 @@ public class User {
 
                    switch (ProfileType)
                     {
-                    case "1":
+                    case "Author":
                        //author
                         new AuthorMenu().setVisible(true);
                     break;
-                    case "2":
+                    case "ConChair":
                        //ConChair
                        new ConChairMenu().setVisible(true);
                     break;
-                    case "3":
+                    case "Reviwer":
                         //Reviwer
                         new ReviewerMenu().setVisible(true);
                     break;
-                    case "4":
+                    case "SystemAdmin":
                         //system admin
                         new SystemAdminMenu().setVisible(true);
-                    break;               
-                    
+                    break;                                   
                     }
-                    
                 }
                 else
                 {
@@ -86,14 +74,9 @@ public class User {
     //logout
     public void logout()
     {
-       //redirect to logout menu 
-       
+       //redirect to logout menu     
        new LoginGui().setVisible(true);
     }
     
-     public String[] GetProfile()
-    {
-        String file[]={UserName,Password,Email,ProfileType,ID};
-        return file;
-    }
+   
 }

@@ -9,7 +9,9 @@ import User.UserAccount;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import ControllerClass.*;
+import User.UserProfile;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,9 +24,19 @@ public class AccountCreate extends javax.swing.JFrame {
     /**
      * Creates new form AccountManagement
      */
-    public AccountCreate() {
+    public AccountCreate() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
+        SystemAdminController SAC= new SystemAdminController();
+        
+        
+         ArrayList<UserProfile> al = SAC.GetProfileTypeCon();//get the profile tables         
+        for (int i=0; i< al.size();i++)
+        {        
+            jComboBox1.addItem(al.get(i).ReturnProfileType());
+        }
+        
+         
     }
 
     /**
@@ -61,7 +73,6 @@ public class AccountCreate extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Author", "Confernce Chair", "Reviwer", "System Admin" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -141,7 +152,6 @@ public class AccountCreate extends javax.swing.JFrame {
         String Password;//random gen from UserAcc class
         String ID="0099";      //Generate from checking db
         String ProfileType = jComboBox1.getSelectedItem().toString();
-       
         Password=UA.passwordGenerator();//make random password
         
         
@@ -173,6 +183,8 @@ public class AccountCreate extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
+        //slide down box
+       
     }//GEN-LAST:event_jComboBox1ActionPerformed
     public void ClosePanel()
     {
@@ -212,7 +224,11 @@ public class AccountCreate extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AccountCreate().setVisible(true);
+                try {
+                    new AccountCreate().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccountCreate.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

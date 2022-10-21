@@ -6,8 +6,7 @@
 package Gui;
 
 import ControllerClass.SystemAdminController;
-import User.User;
-import User.UserAccount;
+import User.UserProfile;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,7 +29,7 @@ public class ViewUsers extends javax.swing.JFrame {
         SystemAdminController SAC= new SystemAdminController();
         
       
-        ArrayList<User> al = SAC.ViewAccCon();           
+        ArrayList<UserProfile> al = SAC.ViewAccCon();           
         for (int i=0; i< al.size();i++)
         {        
             tbm1.addRow(al.get(i).GetProfile());

@@ -1,6 +1,6 @@
 package User;
 
-import Gui.*;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,36 +13,26 @@ import javax.swing.JOptionPane;
 /*
 Class that contains fuction for system admin to use 
 only system admin has access to this 
+ITS OWN IDEPENDENT CLASS
  */
 
 /**
  @author XDpartypooper
  */
-public class UserAccount extends SystemAdmin{
-    //String UserName;   //1
-    //String Password;   //2
-    //String Email;      //3
-    //String ProfileType;//4
+public class UserAccount {
+    String UserName;   //1
+    String Password;   //2
+    String Email;      //3
+    String ProfileType;//4
     //1=Author , 2=ConChair, 3=Reviwer, 4=SystemAdmin
-     //String ID;         //5  (new users will be last user+1)
+    String ID;         //5  (new users will be last user+1)
     
     public UserAccount()
     {
         //default
     }
     
-    
-    public void GotoAccCre()
-    {
-         new AccountCreate().setVisible(true);
-    }
-    
-    public void GotoAccView() throws SQLException
-    {
-         new ViewUsers().setVisible(true);
-    }
-    
-    
+
     public void CreateAccount(String UserName,String Password,String Email,String ProfileType) throws SQLException
     {
         java.sql.Connection conn=null;
@@ -85,23 +75,7 @@ public class UserAccount extends SystemAdmin{
                     throw new SQLException();
                 }
                 
-                //change string profle type to 
-                switch (ProfileType)
-                {
-                    case "Author":
-                        ProfileType="1";
-                    break;
-                    case "Confernce Chair":
-                        ProfileType="2";
-                    break;
-                    case "Reviwer":
-                        ProfileType="3";
-                    break;
-                    case "System Admin":
-                        ProfileType="4";
-                    break;
-                }
-                        
+               
              mySmt = conn.prepareStatement("INSERT INTO Users (UserName,Password,Email,ProfileType,ID) VALUES (?, ?, ?, ?, ?);");         
              mySmt.setString(1, UserName);//User entered
              mySmt.setString(2, Password);//generated password
@@ -140,7 +114,7 @@ public class UserAccount extends SystemAdmin{
     }
     
     //view
-    public ArrayList<User> ViewAccount() throws SQLException
+    public ArrayList<UserProfile> ViewAccount() throws SQLException
     {
         
         java.sql.Connection conn=null;
@@ -152,30 +126,11 @@ public class UserAccount extends SystemAdmin{
         
         rs = mySmt.executeQuery();
         
-        ArrayList<User> al = new ArrayList<User>();
+        ArrayList<UserProfile> al = new ArrayList<UserProfile>();
         
          while(rs.next()) //find works
          {
-                ProfileType=rs.getString(4);
-     
-                if("1".equals(ProfileType))
-                {
-                    ProfileType="Author";
-                }
-                if("2".equals(ProfileType))
-                {
-                    ProfileType="Confernce Chair";
-                }
-                if("3".equals(ProfileType))
-                {
-                    ProfileType="Reviwer";
-                }
-                if("4".equals(ProfileType))
-                {
-                    ProfileType="System Admin";
-                }
-                
-                User UP = new User(rs.getString(1),rs.getString(2),rs.getString(3),ProfileType,rs.getString(5));
+                UserProfile UP = new UserProfile(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
                 al.add(UP);
                        
             Check=true;
@@ -199,6 +154,25 @@ public class UserAccount extends SystemAdmin{
     public void DeleteAccount()
     {
         
+    }
+    
+    public ArrayList<UserProfile> DBProfileType() throws SQLException
+    { 
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        ArrayList<UserProfile> al = new ArrayList<UserProfile>();
+ 
+       conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+       PreparedStatement mySmt = conn.prepareStatement("select * from usertype");  
+        
+       rs = mySmt.executeQuery();
+       while(rs.next()) //find works
+       { 
+            UserProfile UP = new UserProfile(rs.getString(1));
+            al.add(UP);
+       }
+        
+        return al;
     }
   
     

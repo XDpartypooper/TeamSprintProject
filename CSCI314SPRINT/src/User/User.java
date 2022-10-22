@@ -42,8 +42,6 @@ public class User {
                 
                ProfileType = rs.getString(4);            
                    //redirect to main menu
-                   //1=Author , 2=ConChair, 3=Reviwer, 4=SystemAdmin
-
                    switch (ProfileType)
                     {
                     case "Author":
@@ -64,6 +62,7 @@ public class User {
                     break;                                   
                     default:
                         JOptionPane.showMessageDialog(null,"Profile Type Menu Doesnt exsist","ERROR",JOptionPane.ERROR_MESSAGE);
+                        throw new ClassNotFoundException();
                     }
                 }
                 else

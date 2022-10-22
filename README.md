@@ -26,4 +26,7 @@ windows now appear in middle of screen
 HUGE GUI UPDATES 
 and Class restructuring (restructing of User and Userprofile classes) - Roy 21/10/22
 
+Gui update for view user profiles types 
+Create view update and delete -Roy 22/10/22
+
 

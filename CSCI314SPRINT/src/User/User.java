@@ -50,7 +50,7 @@ public class User {
                        //author
                         new AuthorMenu().setVisible(true);
                     break;
-                    case "ConChair":
+                    case "Conference Chair":
                        //ConChair
                        new ConChairMenu().setVisible(true);
                     break;
@@ -62,6 +62,8 @@ public class User {
                         //system admin
                         new SystemAdminMenu().setVisible(true);
                     break;                                   
+                    default:
+                        throw new SQLException();
                     }
                 }
                 else

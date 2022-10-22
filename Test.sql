@@ -22,13 +22,14 @@ DROP TABLE if exists usertype;
 -- CREATE TABLE usertype
 CREATE TABLE usertype  (
 	ProfileType 				VARCHAR(30)		NOT NULL,
-CONSTRAINT users_PKEY PRIMARY KEY (ProfileType)
+	ProfileType_ID   		 	VARCHAR(4)		NOT NULL,
+CONSTRAINT users_PKEY PRIMARY KEY (ProfileType,ProfileType_ID)
 );
 -- insert dummy data for the 4 profiles
-INSERT INTO usertype VALUES ('System Admin');
-INSERT INTO usertype VALUES ('Author');
-INSERT INTO usertype VALUES ('Conference Chair');
-INSERT INTO usertype VALUES ('Reviwer');
+INSERT INTO usertype VALUES ('System Admin','1');
+INSERT INTO usertype VALUES ('Author','2');
+INSERT INTO usertype VALUES ('Conference Chair','3');
+INSERT INTO usertype VALUES ('Reviwer','4');
 
 select * from users; -- view table users
 select * from usertype; 
@@ -38,14 +39,15 @@ select * from usertype;
 
 
 
---below is testing data for papers
+
+-- below is testing data for papers
 CREATE TABLE Papers  (
 	PaperName				VARCHAR(50)		NOT NULL,
 	AuthorID   		 		VARCHAR(4)		NOT NULL, 
 	allocatedID				VARCHAR(4),
-	SubmittedDate				VARCHAR(20)		NOT NULL,
+	SubmittedDate			VARCHAR(20)		NOT NULL,
 	
-	--Email				VARCHAR(50)		NOT NULL,
+	--Email					VARCHAR(50)		NOT NULL,
 	--ProfileType 			VARCHAR(15)		NOT NULL,
 	
 CONSTRAINT Papers_PKEY PRIMARY KEY (UserName, ID)

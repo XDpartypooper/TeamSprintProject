@@ -37,15 +37,12 @@ public class ViewUsers extends javax.swing.JFrame {
         
         DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
         SystemAdminController SAC= new SystemAdminController();
-        
-      
+             
         ArrayList<UserProfile> al = SAC.ViewAccCon();           
         for (int i=0; i< al.size();i++)
         {        
             tbm1.addRow(al.get(i).GetProfile());
-        }
-        
-                       
+        }                  
     }
 
     /**
@@ -135,9 +132,9 @@ public class ViewUsers extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -150,10 +147,9 @@ public class ViewUsers extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,8 +158,11 @@ public class ViewUsers extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -222,9 +221,7 @@ public class ViewUsers extends javax.swing.JFrame {
             }       
         } catch (SQLException ex) {
             Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-         
+        }     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -295,8 +292,9 @@ public class ViewUsers extends javax.swing.JFrame {
                     //error message pop up if empty
                     JOptionPane.showMessageDialog(null,"Invalid, not values in Username,Password or Email","ERROR",JOptionPane.ERROR_MESSAGE);
                 } 
-                else
+                else// if() check
                 {
+                    //update
                     SAC.UpdateAccountCon(UserName,password,Email,ProfileType,ID); 
                 }       
             }       
@@ -377,12 +375,10 @@ public class ViewUsers extends javax.swing.JFrame {
                 System.out.println("Password: "+Password);
                 System.out.println("ID: This will be auto generated from db");//need to finish this up
                 System.out.println("ProfileType: "+ProfileType);
-
-            
             try {
                 SAC.AccCreCon(UserName,Password,Email,ProfileType);              
             } catch (SQLException ex) {
-                Logger.getLogger(AccountCreate.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProfileTypeView.class.getName()).log(Level.SEVERE, null, ex);
             }      
             }
         } catch (SQLException ex) {

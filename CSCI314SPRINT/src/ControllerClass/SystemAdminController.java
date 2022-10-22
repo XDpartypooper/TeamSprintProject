@@ -48,6 +48,7 @@ public class SystemAdminController {
         return al;
     }
     
+     
     public void UpdateAccountCon(String Username,String Password,String Email,String ProfileType,String ID) throws SQLException
     {
         UserAccount UP=new UserAccount();      
@@ -60,14 +61,26 @@ public class SystemAdminController {
         boolean IDex = UP.IDExsist(ID);
         return IDex;
     }
+    public boolean PTIDExsistCon(String ProfileType_ID) throws SQLException 
+    {
+        UserProfile UP=new UserProfile();
+        boolean PTIDex = UP.PTIDExsist(ProfileType_ID);
+        return PTIDex;
+    }
     
      public String GetNameCon(String ID) throws SQLException
     {
         UserProfile UP=new UserProfile();
         String Name = UP.GetNameDB(ID);
-        return Name;
-        
+        return Name;    
     }
+      public String GetPTNameDBCon(String ProfileType_ID) throws SQLException
+    {
+        UserProfile UP=new UserProfile();
+        String Name = UP.GetPTNameDB(ProfileType_ID);
+        return Name;    
+    }
+     
      
      public boolean DelAccCon(String ID) throws SQLException
     {
@@ -77,7 +90,23 @@ public class SystemAdminController {
         
     }
      
-    
-    
-    
+     public void NewProTypeCon(String ProfileType) throws SQLException
+     {
+        UserAccount UA=new UserAccount(); 
+        UA.CreateProfileType(ProfileType);
+
+     } 
+     
+      public void UpdatePTCon(String ProfileType,String ProfileType_ID) throws SQLException
+    {
+        UserAccount UP=new UserAccount();      
+        UP.UpdatePT(ProfileType,ProfileType_ID);
+    }
+       public void DeletePTCon(String ProfileType_ID) throws SQLException
+    {
+        UserAccount UP=new UserAccount();      
+        UP.DeletePT(ProfileType_ID);
+    }
+       
+                         
 }

@@ -26,10 +26,16 @@ public class UserAccount {
     String ProfileType;//4
     //1=Author , 2=ConChair, 3=Reviwer, 4=SystemAdmin
     String ID;         //5  (new users will be last user+1)
+    String ProfileType_ID;
     
     public UserAccount()
     {
         //default
+    }
+    
+     public UserAccount(String ProfileType,String ProfileType_ID)
+    {
+        this.ProfileType=ProfileType;//obj to only store profile type as data
     }
     
 
@@ -60,6 +66,8 @@ public class UserAccount {
  
         if(CHECK==true)//if username and email doesnt exsist - procced to create account
         {
+                
+            
                 mySmt = conn.prepareStatement("select ID from users order by ID desc");           
                 //Get last ID from DB
                 rs = mySmt.executeQuery();
@@ -75,7 +83,8 @@ public class UserAccount {
                     throw new SQLException();
                 }
                 
-               
+                
+                
              mySmt = conn.prepareStatement("INSERT INTO Users (UserName,Password,Email,ProfileType,ID) VALUES (?, ?, ?, ?, ?);");         
              mySmt.setString(1, UserName);//User entered
              mySmt.setString(2, Password);//generated password
@@ -155,16 +164,18 @@ public class UserAccount {
         
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
         
-        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM users WHERE UserName = ? ");        
+        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM users WHERE UserName = ? and ID!=?");        
         mySmt.setString(1, UserName);//User entered    
+        mySmt.setString(2, ID);
         rs = mySmt.executeQuery();
         if(rs.next()) // CONNECT to database and check if USERNAME EXSIST ALREADY
         {
             CHECK=false;
         }          
         
-        mySmt = conn.prepareStatement("SELECT * FROM users WHERE Email = ?"); 
+        mySmt = conn.prepareStatement("SELECT * FROM users WHERE Email = ? and ID!=?"); 
         mySmt.setString(1, Email);//email entered
+        mySmt.setString(2, ID);
         rs = mySmt.executeQuery();
         if(rs.next()) // CONNECT to database and check if USERNAME EXSIST ALREADY
         {
@@ -182,10 +193,11 @@ public class UserAccount {
 
             mySmt.executeUpdate();
             //update values
+            conn.close();  
         }   
     }
     
-    //delete? 
+    //delete
     public boolean DeleteAccount(String ID) throws SQLException
     {
         java.sql.Connection conn=null;
@@ -197,7 +209,7 @@ public class UserAccount {
        mySmt.setString(1, ID);//User entered
          
        check = mySmt.execute();
-    
+       conn.close();  
        return check;
     }
     
@@ -208,18 +220,112 @@ public class UserAccount {
         ArrayList<UserProfile> al = new ArrayList<UserProfile>();
  
        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-       PreparedStatement mySmt = conn.prepareStatement("select * from usertype");  
+       PreparedStatement mySmt = conn.prepareStatement(" SELECT * FROM usertype order by ProfileType_ID asc");  
         
        rs = mySmt.executeQuery();
        while(rs.next()) //find works
        { 
-            UserProfile UP = new UserProfile(rs.getString(1));
+            UserProfile UP = new UserProfile(rs.getString(1),rs.getString(2));
             al.add(UP);
        }
-        
+       conn.close();  
         return al;
+    }  
+    
+    public void CreateProfileType(String ProfileType) throws SQLException
+    {
+       java.sql.Connection conn=null;
+        ResultSet rs =null;
+        boolean CHECK=true;//default means fail
+        
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        
+        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM usertype WHERE ProfileType = ? ");        
+        mySmt.setString(1, ProfileType);//ProfileType entered    
+        rs = mySmt.executeQuery();
+        if(rs.next()) // CONNECT to database and check if ProfileType EXSIST ALREADY
+        {
+            CHECK=false;
+        }          
+        
+
+ 
+        if(CHECK==true)//if ProfileType doesnt exsist - procced to create PT
+        {
+                mySmt = conn.prepareStatement("SELECT * FROM usertype order by ProfileType_ID desc");           
+                //Get last ID from DB
+                rs = mySmt.executeQuery();
+                if(rs.next())// insert data
+                {
+                    ProfileType_ID = rs.getString(2);//get last ID
+                    int idNum=Integer.parseInt(ProfileType_ID);//convert last id from string to int
+                    idNum++;//LAST ID + 1
+                    ProfileType_ID=String.format("%d",idNum);
+                }
+                else
+                {
+                    throw new SQLException();
+                }    
+             mySmt = conn.prepareStatement("INSERT INTO usertype (ProfileType,ProfileType_ID) VALUES (?, ?);");         
+             mySmt.setString(1, ProfileType);//Profile type
+             mySmt.setString(2, ProfileType_ID);//ID
+             
+             mySmt.executeUpdate();
+                
+             JFrame f=new JFrame();
+             JOptionPane.showMessageDialog(f,"New Profile Type succesfully created.");      
+         }
+         else
+         {
+             JOptionPane.showMessageDialog(null,"Profile Type already exsist","ERROR",JOptionPane.ERROR_MESSAGE);
+             throw new SQLException();
+         }        
+       conn.close();  
     }
-  
     
+    public void UpdatePT(String ProfileType,String ProfileType_ID) throws SQLException
+    {
+        //first thing Check if ID exsist
+        //check if user,Email exsist already
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        boolean CHECK=true;//false=exsist ,true=doesnt exsist
+        
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        
+        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM usertype WHERE ProfileType = ?");        
+        mySmt.setString(1, ProfileType);//ProfileType entered    
+        rs = mySmt.executeQuery();
+        if(rs.next()) // CONNECT to database and check if ProfileType EXSIST ALREADY
+        {
+            CHECK=false;//exsist
+        }          
+           
+        
+        if(CHECK==true)//if username and email doesnt exsist - procced to update acc
+        {
+            mySmt = conn.prepareStatement("update usertype set ProfileType = ? where ProfileType_ID=?");    
+            mySmt.setString(1, ProfileType);//Profile type 
+            mySmt.setString(2, ProfileType_ID);//Profile type 
+
+            mySmt.executeUpdate();
+            //update values
+            conn.close();  
+        }   
+    }
     
+    public boolean DeletePT(String ProfileType_ID) throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        boolean check=false;
+
+       conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+       PreparedStatement mySmt = conn.prepareStatement("DELETE FROM usertype WHERE ProfileType_ID=?");  
+       mySmt.setString(1, ProfileType_ID);//User entered
+         
+       check = mySmt.execute();
+       conn.close();  
+       return check;
+    }
 }

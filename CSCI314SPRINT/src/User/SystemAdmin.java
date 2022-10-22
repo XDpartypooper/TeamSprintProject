@@ -3,7 +3,7 @@
  */
 package User;
 
-import Gui.AccountCreate;
+import Gui.ProfileTypeView;
 import Gui.ViewUsers;
 import java.sql.SQLException;
 
@@ -18,7 +18,7 @@ public class SystemAdmin extends UserProfile{
     }
        public void GotoAccCre() throws SQLException
     {
-         new AccountCreate().setVisible(true);
+         new ProfileTypeView().setVisible(true);
          //DONT NEED ALREADY but keep first
     }
     

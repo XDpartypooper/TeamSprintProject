@@ -1,5 +1,6 @@
-create database sprint;-- to create the db
+create database sprint;-- to create the db use when there is not sprint db
 
+---------------------------------------------------------run code from here
 DROP TABLE if exists Users;
 -- CREATE TABLE users
 CREATE TABLE Users  (
@@ -30,9 +31,10 @@ INSERT INTO usertype VALUES ('System Admin','1');
 INSERT INTO usertype VALUES ('Author','2');
 INSERT INTO usertype VALUES ('Conference Chair','3');
 INSERT INTO usertype VALUES ('Reviwer','4');
+-----------------------------------------------------------to here
 
 select * from users; -- view table users
-select * from usertype; 
+select * from usertype; -- view  users types
 
 
 

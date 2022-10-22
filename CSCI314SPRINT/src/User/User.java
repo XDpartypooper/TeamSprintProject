@@ -63,7 +63,7 @@ public class User {
                         new SystemAdminMenu().setVisible(true);
                     break;                                   
                     default:
-                        throw new SQLException();
+                        JOptionPane.showMessageDialog(null,"Profile Type Menu Doesnt exsist","ERROR",JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else

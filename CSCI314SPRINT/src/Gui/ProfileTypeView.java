@@ -31,17 +31,12 @@ public class ProfileTypeView extends javax.swing.JFrame {
      * Creates new form AccountManagement
      */
     public ProfileTypeView() throws SQLException {
+       
         initComponents();
+
         setLocationRelativeTo(null);
         
-        DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
-        SystemAdminController SAC= new SystemAdminController();
-             
-        ArrayList<UserProfile> al = SAC.GetProfileTypeCon();//get the profile tables          
-        for (int i=0; i< al.size();i++)
-        {        
-            tbm1.addRow(al.get(i).ReturnProfileTypeArray());
-        }
+        refreshtable();   
         
     }
     /**
@@ -203,7 +198,7 @@ public class ProfileTypeView extends javax.swing.JFrame {
             if (CHECK==false)
             {
                 JFrame e=new JFrame();
-                JOptionPane.showMessageDialog(null,"No Such User","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"No Such profile type","ERROR",JOptionPane.ERROR_MESSAGE);
                 throw new SQLException();
             }
             
@@ -229,8 +224,8 @@ public class ProfileTypeView extends javax.swing.JFrame {
                 myPanel.add(PTfield);
     
              
-                String name=SAC.GetNameCon(ProfileType_ID);
-                JOptionPane.showConfirmDialog(null, myPanel,"Please Enter update data of user "+ name, JOptionPane.OK_CANCEL_OPTION);
+
+                JOptionPane.showConfirmDialog(null, myPanel,"Please Enter data of updated user profile " , JOptionPane.OK_CANCEL_OPTION);
 
                 String ProfileType  = PTfield.getText();//get username 
             
@@ -288,10 +283,9 @@ public class ProfileTypeView extends javax.swing.JFrame {
                        
             if (CHECK==true)
             {   
-               String PTname=SAC.GetPTNameDBCon(ProfileType_ID);
 
                JFrame c=new JFrame();
-               int a=JOptionPane.showConfirmDialog(c,"Are you sure you want to delete Profile User:"+PTname);
+               int a=JOptionPane.showConfirmDialog(c,"Are you sure you want to delete Profile User:");
 
                if(a==JOptionPane.YES_OPTION)
                 {
@@ -299,7 +293,7 @@ public class ProfileTypeView extends javax.swing.JFrame {
                    
                     //final delete
                     SAC.DeletePTCon(ProfileType_ID);//delete USER
-                    JOptionPane.showMessageDialog(null,"Profile User "+ PTname+" will be deleted!","Profile Type Deleted",JOptionPane.ERROR_MESSAGE);               
+                    JOptionPane.showMessageDialog(null,"Profile User will be deleted!","Profile Type Deleted",JOptionPane.ERROR_MESSAGE);               
                     refreshtable();
                 }  
             }       

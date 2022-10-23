@@ -33,17 +33,10 @@ public class ViewUsers extends javax.swing.JFrame {
      */
     public ViewUsers() throws SQLException {
         initComponents();
-        String word="";
+
         setLocationRelativeTo(null);
         
-        DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
-        SystemAdminController SAC= new SystemAdminController();
-             
-        ArrayList<UserProfile> al = SAC.ViewAccCon(word);           
-        for (int i=0; i< al.size();i++)
-        {        
-            tbm1.addRow(al.get(i).GetProfile());
-        }                  
+        refreshSearch("");                    
     }
 
     /**

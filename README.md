@@ -29,4 +29,7 @@ and Class restructuring (restructing of User and Userprofile classes) - Roy 21/1
 Gui update for view user profiles types 
 Create view update and delete -Roy 22/10/22
 
+Gui update for view user  
+search for user and refesh tables on create update and delte -Roy 23/10/22
+
 

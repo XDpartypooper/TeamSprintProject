@@ -33,12 +33,13 @@ public class ViewUsers extends javax.swing.JFrame {
      */
     public ViewUsers() throws SQLException {
         initComponents();
+        String word="";
         setLocationRelativeTo(null);
         
         DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
         SystemAdminController SAC= new SystemAdminController();
              
-        ArrayList<UserProfile> al = SAC.ViewAccCon();           
+        ArrayList<UserProfile> al = SAC.ViewAccCon(word);           
         for (int i=0; i< al.size();i++)
         {        
             tbm1.addRow(al.get(i).GetProfile());
@@ -62,6 +63,8 @@ public class ViewUsers extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,7 +116,7 @@ public class ViewUsers extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Refresh");
+        jButton3.setText("Search");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -127,6 +130,14 @@ public class ViewUsers extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Seach User");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,15 +145,25 @@ public class ViewUsers extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
-                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)))
+                        .addContainerGap(12, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                                    .addContainerGap()))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,8 +173,12 @@ public class ViewUsers extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(92, 92, 92)
+                        .addGap(36, 36, 36)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -217,6 +242,7 @@ public class ViewUsers extends javax.swing.JFrame {
                     //final delete
                     SAC.DelAccCon(ID);//delete USER
                     JOptionPane.showMessageDialog(null,"User "+ name+" will be deleted!","User Deleted",JOptionPane.ERROR_MESSAGE);               
+                    refreshSearch("");
                 }  
             }       
         } catch (SQLException ex) {
@@ -296,6 +322,7 @@ public class ViewUsers extends javax.swing.JFrame {
                 {
                     //update
                     SAC.UpdateAccountCon(UserName,password,Email,ProfileType,ID); 
+                    refreshSearch("");
                 }       
             }       
         } catch (SQLException ex) {
@@ -304,22 +331,9 @@ public class ViewUsers extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            // TODO add your handling code here:
-            //refresh Tables
-            DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
-            tbm1.setRowCount(0);
-            SystemAdminController SAC= new SystemAdminController();
-            
-            
-            ArrayList<UserProfile> al = SAC.ViewAccCon();
-            for (int i=0; i< al.size();i++)
-            {
-                tbm1.addRow(al.get(i).GetProfile());
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String word=null;     
+        word = jTextField1.getText();//get username as string
+        refreshSearch(word);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -377,6 +391,7 @@ public class ViewUsers extends javax.swing.JFrame {
                 System.out.println("ProfileType: "+ProfileType);
             try {
                 SAC.AccCreCon(UserName,Password,Email,ProfileType);              
+                refreshSearch("");
             } catch (SQLException ex) {
                 Logger.getLogger(ProfileTypeView.class.getName()).log(Level.SEVERE, null, ex);
             }      
@@ -385,10 +400,34 @@ public class ViewUsers extends javax.swing.JFrame {
             Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
         }     
     }//GEN-LAST:event_jButton5ActionPerformed
- public void ClosePanel()
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+    public void ClosePanel()
+       {
+           setVisible(false);
+           dispose();
+       }
+
+    public void refreshSearch(String word)
     {
-        setVisible(false);
-        dispose();
+     try {
+            // TODO add your handling code here:
+            //refresh Tables
+            DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
+            tbm1.setRowCount(0);
+            SystemAdminController SAC= new SystemAdminController();
+            
+            
+            ArrayList<UserProfile> al = SAC.ViewAccCon(word);
+            for (int i=0; i< al.size();i++)
+            {
+                tbm1.addRow(al.get(i).GetProfile());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }   
     }
     /**
      * @param args the command line arguments
@@ -438,8 +477,10 @@ public class ViewUsers extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

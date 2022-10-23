@@ -152,6 +152,30 @@ public class UserAccount {
          conn.close();
         return al;
     }
+    
+    public ArrayList<UserProfile> SearchAccount(String word) throws SQLException
+    {
+        
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("SELECT * FROM users WHERE UserName LIKE ? order by ID asc");  
+        mySmt.setString(1,'%'+word+'%');//User entered    
+        rs = mySmt.executeQuery();
+        
+        ArrayList<UserProfile> al = new ArrayList<UserProfile>();
+        
+         while(rs.next()) //find works
+         {
+                UserProfile UP = new UserProfile(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+                al.add(UP);
+                       
+         }
+
+         conn.close();
+         return al;
+    }
    
     //update?
     public void UpdateAccount(String UserName,String Password,String Email,String ProfileType,String ID) throws SQLException

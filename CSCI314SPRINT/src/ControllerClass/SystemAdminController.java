@@ -34,11 +34,22 @@ public class SystemAdminController {
   
     }
 
-    public ArrayList ViewAccCon() throws SQLException
+    public ArrayList ViewAccCon(String word) throws SQLException
     {
-        UserAccount UA=new UserAccount();
-        ArrayList al = UA.ViewAccount();
-        return al;
+        ArrayList al=null;
+                
+        if(word.isEmpty() || (word==null))//if its empty do normal view 
+        {
+            UserAccount UA=new UserAccount();
+            al = UA.ViewAccount();
+            return al;
+        }
+        else//do search
+        {
+            UserAccount UA=new UserAccount();
+            al = UA.SearchAccount(word);
+            return al;
+        }
     }
     
     public ArrayList<UserProfile> GetProfileTypeCon() throws SQLException

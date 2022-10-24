@@ -7,6 +7,8 @@ import User.UserAccount;
 import User.UserProfile;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,7 +54,7 @@ public class SystemAdminController {
         }
     }
     
-    public ArrayList<UserProfile> GetProfileTypeCon() throws SQLException
+    public ArrayList GetProfileTypeCon() throws SQLException
     {
         UserAccount UP=new UserAccount();       
         ArrayList<UserProfile> al = UP.DBProfileType();
@@ -70,6 +72,7 @@ public class SystemAdminController {
     {
         UserProfile UP=new UserProfile();
         boolean IDex = UP.IDExsist(ID);
+        
         return IDex;
     }
     public boolean PTIDExsistCon(String ProfileType_ID) throws SQLException 

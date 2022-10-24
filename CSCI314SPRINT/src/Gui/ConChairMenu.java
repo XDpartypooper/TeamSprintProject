@@ -15,12 +15,16 @@ import javax.swing.JOptionPane;
  * @author XDpartypooper
  */
 public class ConChairMenu extends javax.swing.JFrame {
-
+    static String name;
+    static String ID;
     /**
      * Creates new form ConChairMenu
      */
-    public ConChairMenu() {
+    public ConChairMenu(String name,String ID) {
+        this.name=name;
+        this.ID=ID;
         initComponents();
+        jLabel1.setText("Confernce Chair - User: "+name);
         setLocationRelativeTo(null);
     }
 
@@ -143,7 +147,7 @@ public class ConChairMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConChairMenu().setVisible(true);
+                new ConChairMenu(name,ID).setVisible(true);
             }
         });
     }

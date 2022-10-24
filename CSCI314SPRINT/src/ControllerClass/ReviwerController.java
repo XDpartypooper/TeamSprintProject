@@ -11,4 +11,10 @@ package ControllerClass;
  */
 public class ReviwerController {
     
+        public String WorkLoadCon()
+    {
+        String s=null;
+        return s;
+    }
+    
 }

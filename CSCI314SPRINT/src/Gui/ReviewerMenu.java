@@ -15,13 +15,18 @@ import javax.swing.JOptionPane;
  * @author XDpartypooper
  */
 public class ReviewerMenu extends javax.swing.JFrame {
-
+    static String name;
+    static String ID;
     /**
      * Creates new form ReviewerMenu
      */
-    public ReviewerMenu() {
+    public ReviewerMenu(String name,String ID) {
+        this.name=name;
+        this.ID=ID;
         initComponents();
+        jLabel1.setText("Reviewer - User: "+name);
         setLocationRelativeTo(null);
+
     }
 
     /**
@@ -139,7 +144,7 @@ public class ReviewerMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ReviewerMenu().setVisible(true);
+                new ReviewerMenu(name,ID).setVisible(true);
             }
         });
     }

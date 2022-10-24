@@ -15,12 +15,16 @@ import javax.swing.JOptionPane;
  * @author XDpartypooper
  */
 public class AuthorMenu extends javax.swing.JFrame {
-
+    static String name;
+    static String ID;
     /**
      * Creates new form AuthorMenu
      */
-    public AuthorMenu() {
+    public AuthorMenu(String name,String ID) {
+        this.name=name;
+        this.ID=ID;
         initComponents();
+        jLabel1.setText("Author - User: "+name);
         setLocationRelativeTo(null);
     }
 
@@ -49,7 +53,12 @@ public class AuthorMenu extends javax.swing.JFrame {
 
         jLabel1.setText("Author Menu");
 
-        jButton4.setText("view papers");
+        jButton4.setText("Papers");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("View ,upload/create update and delete");
 
@@ -58,18 +67,17 @@ public class AuthorMenu extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jButton4))
-                        .addGap(0, 199, Short.MAX_VALUE)))
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,12 +86,13 @@ public class AuthorMenu extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(60, 60, 60)
-                .addComponent(jButton4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
 
         pack();
@@ -101,7 +110,16 @@ public class AuthorMenu extends javax.swing.JFrame {
             ClosePanel();//close menu
         }
     }//GEN-LAST:event_jButton3ActionPerformed
- public void ClosePanel()
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //go to gui for papers
+        Author A=new Author();
+        A.GotoAccView(name,ID);
+        ClosePanel();
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+    public void ClosePanel()
     {
         setVisible(false);
         dispose();
@@ -136,7 +154,9 @@ public class AuthorMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AuthorMenu().setVisible(true);
+                
+                new AuthorMenu(name,ID).setVisible(true);
+                
             }
         });
     }

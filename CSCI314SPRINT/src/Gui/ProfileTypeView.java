@@ -26,16 +26,16 @@ import javax.swing.table.DefaultTableModel;
  * @author XDpartypooper
  */
 public class ProfileTypeView extends javax.swing.JFrame {
-
+    static String ID;
+    static String name;
     /**
      * Creates new form AccountManagement
      */
-    public ProfileTypeView() throws SQLException {
-       
+    public ProfileTypeView(String name,String ID) throws SQLException {  
+        this.name =name;
+        this.ID =ID;
         initComponents();
-
         setLocationRelativeTo(null);
-        
         refreshtable();   
         
     }
@@ -143,7 +143,7 @@ public class ProfileTypeView extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         //Back to main menu
-        new SystemAdminMenu().setVisible(true);
+        new SystemAdminMenu(name,ID).setVisible(true);
         ClosePanel();//close menu
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -364,7 +364,7 @@ public class ProfileTypeView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new ProfileTypeView().setVisible(true);
+                    new ProfileTypeView(name,ID).setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(ProfileTypeView.class.getName()).log(Level.SEVERE, null, ex);
                 }

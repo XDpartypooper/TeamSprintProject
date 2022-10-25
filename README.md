@@ -33,4 +33,4 @@ Gui update for view user
 search for user and refesh tables on create update and delte -Roy 23/10/22
 
 
-added AUTHOR.paper MENU with create view update and delete -Roy 25/10/22
+added Author and author's paper MENU with create view update and delete -Roy 25/10/22

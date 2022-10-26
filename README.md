@@ -34,3 +34,5 @@ search for user and refesh tables on create update and delte -Roy 23/10/22
 
 
 added Author and author's paper MENU with create view update and delete -Roy 25/10/22
+
+added search function based on profile type -Roy 26/10/22

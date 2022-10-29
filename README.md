@@ -36,3 +36,8 @@ search for user and refesh tables on create update and delte -Roy 23/10/22
 added Author and author's paper MENU with create view update and delete -Roy 25/10/22
 
 added search function based on profile type -Roy 26/10/22
+
+Add Conference chair Paper allocation system GUI( manual allocated )
+search Reviewer and search Paper Name 
+added reviewer GUI for papers allocated( able to view the papers allocated to you ) 
+able to edit work load-Roy 30/10/22

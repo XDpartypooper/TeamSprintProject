@@ -1,18 +1,3 @@
-create database sprint;-- to create the db use when there is not sprint db
-
-select * from users; -- view table users
-select * from usertype; 
-select * from papers; 
-select * from Reviewer; 
-
-
--- view all reviewers
-SELECT users.UserName,Reviewer.ReviewerID,Reviewer.WorkLoad
-From Reviewer 
-INNER JOIN users 
-ON Reviewer.ReviewerID = users.ID;
-
-
 -- run code from here
 DROP TABLE if exists Users;
 -- CREATE TABLE users
@@ -29,7 +14,7 @@ CONSTRAINT users_PKEY PRIMARY KEY (UserName, ID)
 INSERT INTO Users VALUES ('Roy','Password1','Bruh1@uow.com','System Admin','001');
 INSERT INTO Users VALUES ('Author','Password2','Bruh2@uow.com','Author','002');
 INSERT INTO Users VALUES ('ConChair','Password3','Bruh3@uow.com','Conference Chair','003');
-INSERT INTO Users VALUES ('Reviewer','Password4','Bruh4@uow.com','Reviwer','004');
+INSERT INTO Users VALUES ('Reviewer','Password4','Bruh4@uow.com','Reviewer','004');
 INSERT INTO Users VALUES ('Author2','Password2','Bruh5@uow.com','Author','005');
 
 DROP TABLE if exists usertype;
@@ -66,8 +51,10 @@ CONSTRAINT Reviewer_PKEY PRIMARY KEY (ReviewerID)
 );
 
 -- dummy value for author 
-INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', null);
-INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', null);
+INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', '004');
+INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', '004');
+INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null);
+INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4', null);
 INSERT INTO Reviewer VALUES ('004', null);
 -- to here
 
@@ -75,16 +62,47 @@ INSERT INTO Reviewer VALUES ('004', null);
 
 
 
+
+
+-- etc stuff 
+create database sprint;-- to create the db use when there is not sprint db
+
+select * from users; -- view table users
+select * from usertype; 
+select * from papers; 
+select * from Reviewer; 
+
+select * from Bids; 
+select * from Comment; 
+select * from reviews;
+ select * from Rating;
+ 
 -- testing stuff below
 
 -- bids 
-CREATE TABLE Reviewer  (
+CREATE TABLE Bids  (
 	PaperID     		 		VARCHAR(4)		NOT NULL, 
 	Bids					    VARCHAR(10),
 	BidderID     		 		VARCHAR(4),
+	Bid status					VARCHAR(10)     NOT NULL,
 
-CONSTRAINT Papers_PKEY PRIMARY KEY (PaperID)
+CONSTRAINT bids_PKEY PRIMARY KEY (PaperID)
 );
+
 -- comment
+CREATE TABLE Comment  (
+	PaperID     		 		VARCHAR(4)		NOT NULL, 
+
+CONSTRAINT Comment_PKEY PRIMARY KEY (PaperID)
+);
 -- rating
+CREATE TABLE Rating  (
+	PaperID     		 		VARCHAR(4)		NOT NULL, 
+
+CONSTRAINT Rating_PKEY PRIMARY KEY (PaperID)
+);
 -- reviews
+CREATE TABLE reviews  (
+	PaperID     		 		VARCHAR(4)		NOT NULL, 
+CONSTRAINT Reviews_PKEY PRIMARY KEY (PaperID)
+);

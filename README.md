@@ -40,4 +40,5 @@ added search function based on profile type -Roy 26/10/22
 Add Conference chair Paper allocation system GUI( manual allocated )
 search Reviewer and search Paper Name 
 added reviewer GUI for papers allocated( able to view the papers allocated to you ) 
-able to edit work load-Roy 30/10/22
+able to edit work load
+-Roy 30/10/22

@@ -1,4 +1,6 @@
 # TeamSprintProject
+IF CSCI314SPRINT doesnt work Try using The RAR ver
+
 LETSSS GOOOOO team sprint 
 
 EDIT test - by Roy 15/10/22

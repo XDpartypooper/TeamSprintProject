@@ -37,7 +37,7 @@ public class AuthorPapers extends javax.swing.JFrame {
         this.ID=ID;
         initComponents();
         setLocationRelativeTo(null);
-        refreshSearch(null);
+        refreshSearch("");
     }
 
     /**
@@ -218,7 +218,7 @@ public class AuthorPapers extends javax.swing.JFrame {
                 {
                     try {                  
                         AC.SubmitPaperCOn(PaperName,ID,CO_name);                   
-                        refreshSearch(ID);
+                        refreshSearch("");
                     } catch (SQLException ex) {
                         Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
                     }  
@@ -234,14 +234,14 @@ public class AuthorPapers extends javax.swing.JFrame {
           try {
             //update
             AuthorController AC= new AuthorController();
-            AC.ViewPaperCon(null,ID);
+           
             JComboBox PTBox1 =new JComboBox();
             JComboBox PTBox =new JComboBox();
 
             JTextField UField = new JTextField(50);
             JPanel myPanel = new JPanel();
             
-            ArrayList<Papers> al = AC.ViewPaperCon(null,ID);
+            ArrayList<Papers> al = AC.ViewPaperCon("",ID);
             for (int i=0; i< al.size();i++)
             {
                 PTBox1.addItem(al.get(i).GetPName());
@@ -270,7 +270,7 @@ public class AuthorPapers extends javax.swing.JFrame {
 
                  AC.UpdatePaperCon(PaperName,NewPaperName,co_Author);//update paper        
                  
-                 refreshSearch(ID);
+                 refreshSearch("");
            }
         } catch (SQLException ex) {
             Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,12 +284,11 @@ public class AuthorPapers extends javax.swing.JFrame {
         try {
             //delete
             AuthorController AC= new AuthorController();
-            AC.ViewPaperCon(null,ID);
             JComboBox PTBox =new JComboBox();
             
             JPanel myPanel = new JPanel();
             
-            ArrayList<Papers> al = AC.ViewPaperCon(null,ID);
+            ArrayList<Papers> al = AC.ViewPaperCon("",ID);
             for (int i=0; i< al.size();i++)
             {
                 PTBox.addItem(al.get(i).GetPName());
@@ -314,7 +313,7 @@ public class AuthorPapers extends javax.swing.JFrame {
                             //return type if it deletes is friggin false
                             JOptionPane.showMessageDialog(null,"Paper will be deleted!","User Deleted",JOptionPane.ERROR_MESSAGE);
                         }
-                   refreshSearch(ID);
+                   refreshSearch("");
                 }  
         } catch (SQLException ex) {
             Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);

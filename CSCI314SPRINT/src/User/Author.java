@@ -161,8 +161,7 @@ public class Author extends UserProfile{
         ArrayList<Papers> al = new ArrayList<Papers>();
         
          while(rs.next()) //find works
-         {
-   
+         { 
                 Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)));
                 //paper name, paper id , author ID , co author name , reviewer ID
                 al.add(P);                       
@@ -215,7 +214,7 @@ public class Author extends UserProfile{
             
             
             mySmt = conn.prepareStatement("SELECT * FROM papers where PaperName = ?");   // check for exsisting paperName        
-            mySmt.setString(1, Pname);//co author id
+            mySmt.setString(1, newPname);//co author id
              rs = mySmt.executeQuery();
              if(rs.next())// insert data
              {

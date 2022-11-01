@@ -45,5 +45,5 @@ added reviewer GUI for papers allocated( able to view the papers allocated to yo
 able to edit work load
 -Roy 30/10/22
 
-Added search function for Authors to search their papers-Roy 1/11/22
-bug fixes
+Added search function for Authors to search their papers and bug fixes-Roy 1/11/22
+

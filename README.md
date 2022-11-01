@@ -44,3 +44,5 @@ search Reviewer and search Paper Name
 added reviewer GUI for papers allocated( able to view the papers allocated to you ) 
 able to edit work load
 -Roy 30/10/22
+
+Added search function for Authors to search their papers-Roy 1/11/22

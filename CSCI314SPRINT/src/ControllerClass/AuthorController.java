@@ -19,13 +19,13 @@ import javax.swing.JOptionPane;
 public class AuthorController {
     
     
-    public ArrayList ViewPaperCon(String ID) throws SQLException 
+    public ArrayList ViewPaperCon(String word,String ID) throws SQLException 
     {
-        //returns all papers 
+        //returns papers depend on if word is empty
         ArrayList al=null;
                
         Author A=new Author();
-        al = A.ViewPapers(ID);
+        al = A.ViewPapers(word,ID);
         
         //note to convert ID to name - or can also keep the same
         return al;  

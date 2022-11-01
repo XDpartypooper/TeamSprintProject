@@ -37,7 +37,7 @@ public class AuthorPapers extends javax.swing.JFrame {
         this.ID=ID;
         initComponents();
         setLocationRelativeTo(null);
-        refreshSearch(name);
+        refreshSearch(null);
     }
 
     /**
@@ -55,6 +55,8 @@ public class AuthorPapers extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,6 +118,13 @@ public class AuthorPapers extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Search paper");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,13 +133,19 @@ public class AuthorPapers extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -143,6 +158,10 @@ public class AuthorPapers extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -215,14 +234,14 @@ public class AuthorPapers extends javax.swing.JFrame {
           try {
             //update
             AuthorController AC= new AuthorController();
-            AC.ViewPaperCon(ID);
+            AC.ViewPaperCon(null,ID);
             JComboBox PTBox1 =new JComboBox();
             JComboBox PTBox =new JComboBox();
 
             JTextField UField = new JTextField(50);
             JPanel myPanel = new JPanel();
             
-            ArrayList<Papers> al = AC.ViewPaperCon(ID);
+            ArrayList<Papers> al = AC.ViewPaperCon(null,ID);
             for (int i=0; i< al.size();i++)
             {
                 PTBox1.addItem(al.get(i).GetPName());
@@ -265,12 +284,12 @@ public class AuthorPapers extends javax.swing.JFrame {
         try {
             //delete
             AuthorController AC= new AuthorController();
-            AC.ViewPaperCon(ID);
+            AC.ViewPaperCon(null,ID);
             JComboBox PTBox =new JComboBox();
             
             JPanel myPanel = new JPanel();
             
-            ArrayList<Papers> al = AC.ViewPaperCon(ID);
+            ArrayList<Papers> al = AC.ViewPaperCon(null,ID);
             for (int i=0; i< al.size();i++)
             {
                 PTBox.addItem(al.get(i).GetPName());
@@ -301,6 +320,14 @@ public class AuthorPapers extends javax.swing.JFrame {
             Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        //search 
+        String Word = jTextField1.getText();//get search word 
+        refreshSearch(Word);
+        Word=null;
+    }//GEN-LAST:event_jButton5ActionPerformed
      public void ClosePanel()
     {
         setVisible(false);
@@ -341,7 +368,7 @@ public class AuthorPapers extends javax.swing.JFrame {
         });
     }
     
-    public void refreshSearch(String name)
+    public void refreshSearch(String word)
     {
      try {
             // TODO add your handling code here:
@@ -351,7 +378,7 @@ public class AuthorPapers extends javax.swing.JFrame {
             AuthorController AC= new AuthorController();
             
             
-            ArrayList<Papers> al = AC.ViewPaperCon(ID);
+            ArrayList<Papers> al = AC.ViewPaperCon(word,ID);
             for (int i=0; i< al.size();i++)
             {
                 tbm1.addRow(al.get(i).GetPaper());
@@ -366,7 +393,9 @@ public class AuthorPapers extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

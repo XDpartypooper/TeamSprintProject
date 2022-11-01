@@ -13,7 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Box;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -193,21 +197,34 @@ public class ReviewerPapers extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             // edit work load
-            String WL = JOptionPane.showInputDialog(null,"Enter Your prefered work load amount");
+            JComboBox PTBox =new JComboBox();
+            for (int i=0; i<31;i++)
+            {
+                PTBox.addItem(i);
+            }
+            JPanel myPanel = new JPanel();
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            myPanel.add(new JLabel("Work load :"));
+            myPanel.add(PTBox);
+            int n = JOptionPane.showConfirmDialog(null, myPanel,"Choose Your prefered work load amount", JOptionPane.OK_CANCEL_OPTION);
+                       
+            String WL = PTBox.getSelectedItem().toString();//get name of co author
+
             ReviewerController RC= new ReviewerController();
+            if(n == JOptionPane.OK_OPTION){
+                int idNum=Integer.parseInt(WL);//convert 
             
-            int idNum=Integer.parseInt(WL);//convert 
-            
-            if(idNum==0)
-            {
-                WL=null;
-            }
-            else
-            {
-                WL=String.format("%d",idNum);
-            }
-            RC.EditWorkLoadCon(WL,ID);
-            workLoadRefresh();
+                if(WL=="")
+                {
+                    WL=null;
+                }
+                else
+                {
+                    WL=String.format("%d",idNum);
+                }
+                RC.EditWorkLoadCon(WL,ID);
+                workLoadRefresh();
+            }     
         } catch (SQLException ex) {
             Logger.getLogger(ReviewerPapers.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -72,7 +72,7 @@ public class ReviewerMenu extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Bids,how does it works?");
+        jLabel3.setText("Bids,how does it works? - not implimented");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

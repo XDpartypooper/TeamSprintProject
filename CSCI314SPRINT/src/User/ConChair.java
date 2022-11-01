@@ -18,61 +18,31 @@ import java.util.ArrayList;
  */
 public class ConChair extends UserProfile{
     
-    
-    public ArrayList ViewNAPapers() throws SQLException
-    {
-        //NON allocated papers
-        java.sql.Connection conn=null;
-        ResultSet rs =null;
-
-        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from papers where ALReviewerID is null order by PaperID asc");  
-        rs = mySmt.executeQuery();
-        
-        ArrayList<Papers> al = new ArrayList<Papers>();
-        
-         while(rs.next()) //find works
-         {
-   
-                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)));
-                //paper name, paper id , author ID , co author name , reviewer ID
-                al.add(P);                       
-         }
-         conn.close();
-        return al;
-    }
-    
-    public ArrayList ViewAPapers() throws SQLException
-    {
-        //NON allocated papers
-        java.sql.Connection conn=null;
-        ResultSet rs =null;
-
-        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from papers where ALReviewerID is not null order by PaperID asc");  
-        rs = mySmt.executeQuery();
-        
-        ArrayList<Papers> al = new ArrayList<Papers>();
-        
-         while(rs.next()) //find works
-         {
-   
-                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)));
-                //paper name, paper id , author ID , co author name , reviewer ID
-                al.add(P);                       
-         }
-         conn.close();
-        return al;
-    }
-    
-    public ArrayList ViewPapers() throws SQLException
+  
+    public ArrayList ViewPapers(int choice) throws SQLException
     {
         // allocated papers
         java.sql.Connection conn=null;
         ResultSet rs =null;
 
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from papers order by PaperID asc");  
+        PreparedStatement mySmt=null;
+        
+        switch (choice)
+        {
+            case 1:
+                mySmt = conn.prepareStatement("Select * from papers order by PaperID asc");
+                break;
+            case 2:
+                mySmt = conn.prepareStatement("Select * from papers where ALReviewerID is not null order by PaperID asc");  
+                break;
+            case 3:
+                mySmt = conn.prepareStatement("Select * from papers where ALReviewerID is null order by PaperID asc"); 
+                break;
+        }
+        
+        
+        
         rs = mySmt.executeQuery();
         
         ArrayList<Papers> al = new ArrayList<Papers>();

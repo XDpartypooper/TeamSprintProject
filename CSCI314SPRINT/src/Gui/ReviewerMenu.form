@@ -111,7 +111,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Bids,how does it works?"/>
+        <Property name="text" type="java.lang.String" value="Bids,how does it works? - not implimented"/>
       </Properties>
     </Component>
   </SubComponents>

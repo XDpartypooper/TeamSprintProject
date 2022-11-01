@@ -65,7 +65,7 @@ public class User {
                         new SystemAdminMenu(UserName,ID).setVisible(true);
                     break;                                   
                     default:
-                        JOptionPane.showMessageDialog(null,"Profile Type Menu Doesnt exsist","ERROR",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Profile Type Menu Currently Doesn't exsist","ERROR",JOptionPane.ERROR_MESSAGE);
                         throw new ClassNotFoundException();
                     }
                 }

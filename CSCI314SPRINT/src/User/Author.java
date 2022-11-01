@@ -85,10 +85,20 @@ public class Author extends UserProfile{
         java.sql.Connection conn=null;
         ResultSet rs =null;
         String PaperID=null;
+        PreparedStatement mySmt;  
         
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
         
-             PreparedStatement mySmt;       
+            mySmt = conn.prepareStatement("SELECT * FROM papers where PaperName = ?");   // check for exsisting paperName        
+            mySmt.setString(1, Pname);//co author id
+             rs = mySmt.executeQuery();
+             if(rs.next())// insert data
+             {
+                 JOptionPane.showMessageDialog(null,"Paper with that name Already exist.");  
+                 throw new SQLException();
+             }
+        
+                  
              mySmt = conn.prepareStatement("SELECT * FROM papers order by PaperID desc");           
             //Get last ID from DB
              rs = mySmt.executeQuery();
@@ -110,7 +120,7 @@ public class Author extends UserProfile{
              }
              else
              {
-                 CoAuthorID=null;
+                    CoAuthorID=null;
              }
        
              mySmt = conn.prepareStatement("INSERT INTO papers (PaperName,AuthorID,co_AuthorID,PaperID,ALReviewerID) VALUES (?, ?, ?, ? , null);");         
@@ -125,15 +135,27 @@ public class Author extends UserProfile{
              JOptionPane.showMessageDialog(f,"New paper succesfully submitted.");  
     }
     
-    public ArrayList ViewPapers(String ID) throws SQLException
+    public ArrayList ViewPapers(String word,String ID) throws SQLException
     {
         java.sql.Connection conn=null;
         ResultSet rs =null;
-
+        PreparedStatement mySmt ;
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from papers where AuthorID = ? or co_AuthorID	=? ");  
+        mySmt = conn.prepareStatement("Select * from papers where AuthorID = ? or co_AuthorID=? "); 
         mySmt.setString(1, ID);//author name
         mySmt.setString(2, ID);//Co author name
+        
+        if (word!=null || word !="")
+        {
+            mySmt = conn.prepareStatement("Select * from papers where PaperName like ? and AuthorID = ? or co_AuthorID=? ");
+            mySmt.setString(1,'%'+word+'%');//
+            mySmt.setString(2, ID);//author name
+            mySmt.setString(3, ID);//Co author name
+           
+        }
+        
+        
+        
         rs = mySmt.executeQuery();
         
         ArrayList<Papers> al = new ArrayList<Papers>();
@@ -186,9 +208,24 @@ public class Author extends UserProfile{
     public void UpdatePaper(String Pname,String newPname,String CoAuthorID) throws SQLException
     {
             java.sql.Connection conn=null;
+            ResultSet rs =null;
             CoAuthorID =  GetUserID(CoAuthorID);
+            PreparedStatement mySmt;
             conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-            PreparedStatement mySmt = conn.prepareStatement("update papers set PaperName = ? , co_AuthorID = ? where PaperName=?");    
+            
+            
+            mySmt = conn.prepareStatement("SELECT * FROM papers where PaperName = ?");   // check for exsisting paperName        
+            mySmt.setString(1, Pname);//co author id
+             rs = mySmt.executeQuery();
+             if(rs.next())// insert data
+             {
+                 JOptionPane.showMessageDialog(null,"Paper with that name Already exist.");  
+                 throw new SQLException();
+             }
+            
+            
+            
+            mySmt= conn.prepareStatement("update papers set PaperName = ? , co_AuthorID = ? where PaperName=?");    
             mySmt.setString(1, newPname);//newPname  
             mySmt.setString(2, CoAuthorID);//CoAuthorID  
             mySmt.setString(3, Pname);//CoAuthorID  

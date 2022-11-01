@@ -23,24 +23,16 @@ public class ConChairController {
         ArrayList al=null;              
         ConChair CC=new ConChair();
         
-
             switch (Choice)
           {
               case 1:
-                  al = CC.ViewPapers(); //ALL papers                  
-                  return al;
               case 2:
-                  al = CC.ViewAPapers(); // papers with reviewers 
-                  return al;
               case 3:
-                  al = CC.ViewNAPapers(); // papers without reviewers,  
+                  al = CC.ViewPapers(Choice); //ALL papers  ,papers with reviewers  , papers without reviewers Based on int choice                
                   return al;
               case 4 :
                   al = CC.ViewSearchPapers(word,Search); // Search Paper 
                   return al;
-              case 5 :
-                  al = CC.ViewSearchPapers(word,Search); // Search Paper 
-                  return al; 
               
           }  
       

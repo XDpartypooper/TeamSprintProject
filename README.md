@@ -46,3 +46,4 @@ able to edit work load
 -Roy 30/10/22
 
 Added search function for Authors to search their papers-Roy 1/11/22
+bug fixes

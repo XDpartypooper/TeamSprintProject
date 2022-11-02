@@ -32,6 +32,7 @@ INSERT INTO usertype VALUES ('Conference Chair','3');
 INSERT INTO usertype VALUES ('Reviwer','4');
 
 -- Papers 
+-- test for papers with file
 DROP TABLE if exists Papers;
 CREATE TABLE Papers  (
 	PaperName				VARCHAR(100)	NOT NULL,
@@ -39,7 +40,8 @@ CREATE TABLE Papers  (
 	co_AuthorID				VARCHAR(4),
 	PaperID 				VARCHAR(4)      NOT NULL,
 	ALReviewerID		    VARCHAR(4),
-	
+    Paper_File    			mediumblob  	,
+	SubmitedDate			VARCHAR(10)		NOT NULL,
 CONSTRAINT Papers_PKEY PRIMARY KEY (PaperName,PaperID,AuthorID)
 );
 -- Reviewer
@@ -51,10 +53,11 @@ CONSTRAINT Reviewer_PKEY PRIMARY KEY (ReviewerID)
 );
 
 -- dummy value for author 
-INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', '004');
-INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', '004');
-INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null);
-INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4', null);
+INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', '004',null,CURDATE());
+INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', '004',null,CURDATE());
+INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null,null,CURDATE());
+INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4', null,null,CURDATE());
+-- dummy papers has no txt tag to it
 INSERT INTO Reviewer VALUES ('004', null);
 -- to here
 

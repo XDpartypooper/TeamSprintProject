@@ -47,3 +47,4 @@ able to edit work load
 
 Added search function for Authors to search their papers and bug fixes-Roy 1/11/22
 
+added submit TXT.file fuction and download txt function for Author -Roy 3/11/22

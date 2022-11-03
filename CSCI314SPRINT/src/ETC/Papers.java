@@ -22,25 +22,25 @@ public class Papers{
     String Author; // can be ID or Name
     String Co_Author;// can be ID or Name
     String ALReviewerID;// can be ID or Name
+    String Date;
     
     public Papers()
     {
     }
     
-    public Papers(String PaperName,String PaperID,String Author,String Co_Author,String ALReviewerID)
+    public Papers(String PaperName,String PaperID,String Author,String Co_Author,String ALReviewerID,String Date)
     {
         this.PaperName=PaperName;
         this.Author=Author;
         this.PaperID=PaperID;
         this.Co_Author=Co_Author;
         this.ALReviewerID=ALReviewerID;
-        
-        
+        this.Date=Date;
     }
     
     public String[] GetPaper()
     {
-        String file[]={PaperName,PaperID,Author,Co_Author,ALReviewerID};
+        String file[]={PaperName,PaperID,Author,Co_Author,ALReviewerID,Date};
         return file;
     }
     
@@ -55,27 +55,5 @@ public class Papers{
     }
     
       
-       public ArrayList ViewPapers( ) throws SQLException // get all papers
-    {
-        java.sql.Connection conn=null;
-        ResultSet rs =null;
-
-        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from papers");  
-        
-        rs = mySmt.executeQuery();
-        UserProfile UP = new UserProfile();
-        
-        ArrayList<Papers> al = new ArrayList<Papers>();
-        
-         while(rs.next()) //find works
-         {
-   
-                Papers P = new Papers(rs.getString(1),UP.GetNameDB(rs.getString(2)),UP.GetNameDB(rs.getString(3)),rs.getString(4),UP.GetNameDB(rs.getString(5)));
-                //paper name, paper id , author ID , co author name , reviewer ID
-                al.add(P);                       
-         }
-         conn.close();
-        return al;
-    }
+ 
 }

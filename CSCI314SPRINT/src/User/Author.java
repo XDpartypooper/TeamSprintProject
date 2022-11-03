@@ -6,6 +6,16 @@ package User;
 import ETC.Papers;
 import Gui.AuthorMenu;
 import Gui.AuthorPapers;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Blob;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import sun.misc.IOUtils;
 /**
  *
  * @author XDpartypooper
@@ -56,7 +66,7 @@ public class Author extends UserProfile{
     
     public ArrayList GetAuthors(String ID) throws SQLException
     {
-        //get all authors except
+        //get all authors except self 
          java.sql.Connection conn=null;
         ResultSet rs =null;
    
@@ -79,8 +89,9 @@ public class Author extends UserProfile{
          return al;  
     }
     
-    public void SubmitPaper(String Pname,String AuthorID, String CoAuthorID) throws SQLException
+    public void SubmitPaper(String Pname,String AuthorID, String CoAuthorID,File file) throws SQLException, FileNotFoundException
     {
+        //String Pname,String AuthorID, String CoAuthorID,,File file
         //submit paper
         java.sql.Connection conn=null;
         ResultSet rs =null;
@@ -122,13 +133,14 @@ public class Author extends UserProfile{
              {
                     CoAuthorID=null;
              }
-       
-             mySmt = conn.prepareStatement("INSERT INTO papers (PaperName,AuthorID,co_AuthorID,PaperID,ALReviewerID) VALUES (?, ?, ?, ? , null);");         
+             FileInputStream file0 = new FileInputStream(file); 
+             mySmt = conn.prepareStatement("INSERT INTO papers (PaperName,AuthorID,co_AuthorID,PaperID,ALReviewerID,Paper_File,SubmitedDate) VALUES (?, ?, ?, ? , null, ?, CURDATE());");         
              mySmt.setString(1, Pname);//Paper name
              mySmt.setString(2, AuthorID);//author id
              mySmt.setString(3, CoAuthorID);//co author id
              mySmt.setString(4, PaperID);//paper ID
-             
+             mySmt.setBlob(  5, file0);//file
+      
              mySmt.executeUpdate();
                 
              JFrame f=new JFrame();
@@ -162,13 +174,58 @@ public class Author extends UserProfile{
         
          while(rs.next()) //find works
          { 
-                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)));
-                //paper name, paper id , author ID , co author name , reviewer ID
+                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)),rs.getString(7));
+                //paper name, paper id , author ID , co author name , reviewer ID, Date
                 al.add(P);                       
          }
          conn.close();
         return al;
     }
+    
+    public void DownloadPaper(String PaperName,String ID) throws SQLException, FileNotFoundException, IOException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        PreparedStatement mySmt ;
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        mySmt = conn.prepareStatement("Select * from papers where PaperName =? and AuthorID =?"); 
+        mySmt.setString(1, PaperName);//author name
+        mySmt.setString(2, ID);//Co author name
+        
+
+        
+        rs = mySmt.executeQuery();
+        
+        ArrayList<Papers> al = new ArrayList<Papers>();
+        
+         while(rs.next()) //find works
+         { 
+               
+                String PName = rs.getString(1);;
+                Blob  Blob   = rs.getBlob(6);
+                byte[] bdata = Blob.getBytes(1, (int) Blob.length());
+                String s = new String(bdata);
+                
+                
+                File file = new File("C:\\Users\\Public\\Downloads\\"+PName+".txt");
+                FileOutputStream fos = new FileOutputStream(file);
+                
+                if (!file.exists())
+                {
+                   file.createNewFile();
+                }
+                byte[] B = s.getBytes();
+                fos.write(B);
+		fos.flush();
+		fos.close();
+                String dir = "C:\\Users\\Public\\Downloads\\";
+                JOptionPane.showMessageDialog(null,"File downloaded At "+dir);
+         }
+         conn.close();
+
+    }
+    
+    
     
     public boolean CheckPID(String PID) throws SQLException
     {
@@ -204,7 +261,7 @@ public class Author extends UserProfile{
            return check;                  
     }
     
-    public void UpdatePaper(String Pname,String newPname,String CoAuthorID) throws SQLException
+    public void UpdatePaper(String Pname,String newPname,String CoAuthorID,File file) throws SQLException, FileNotFoundException
     {
             java.sql.Connection conn=null;
             ResultSet rs =null;
@@ -223,13 +280,25 @@ public class Author extends UserProfile{
              }
             
             
-            
-            mySmt= conn.prepareStatement("update papers set PaperName = ? , co_AuthorID = ? where PaperName=?");    
-            mySmt.setString(1, newPname);//newPname  
-            mySmt.setString(2, CoAuthorID);//CoAuthorID  
-            mySmt.setString(3, Pname);//CoAuthorID  
-            mySmt.executeUpdate();
+            if(file!=null){
+                FileInputStream file0 = new FileInputStream(file); 
+                mySmt= conn.prepareStatement("update papers set PaperName = ? , co_AuthorID = ?,Paper_File = ? where PaperName=?");    
+                mySmt.setString(1, newPname);//newPname  
+                mySmt.setString(2, CoAuthorID);//CoAuthorID  
+                mySmt.setBlob(3, file0);//CoAuthorID  
+                mySmt.setString(4, Pname);//CoAuthorID  
+                mySmt.executeUpdate();
             //update values
+            }
+            else
+            {
+                mySmt= conn.prepareStatement("update papers set PaperName = ? , co_AuthorID = ? where PaperName=?");    
+                mySmt.setString(1, newPname);//newPname  
+                mySmt.setString(2, CoAuthorID);//CoAuthorID  
+                mySmt.setString(3, Pname);//CoAuthorID  
+                mySmt.executeUpdate();
+            }
+            
             
            conn.close();  
     }

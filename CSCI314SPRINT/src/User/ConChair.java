@@ -50,7 +50,7 @@ public class ConChair extends UserProfile{
          while(rs.next()) //find works
          {
    
-                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)));
+                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)),rs.getString(7));
                 //paper name, paper id , author ID , co author name , reviewer ID
                 al.add(P);                       
          }
@@ -86,8 +86,8 @@ public class ConChair extends UserProfile{
         
          while(rs.next()) //find works
          {
-                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)));
-                //paper name, paper id , author ID , co author name , reviewer ID
+                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)),rs.getString(7));
+                //paper name, paper id , author ID , co author name , reviewer ID,date
                 al.add(P);                       
          }
          conn.close();

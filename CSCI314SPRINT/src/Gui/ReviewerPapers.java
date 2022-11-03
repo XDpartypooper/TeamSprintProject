@@ -6,8 +6,10 @@
 package Gui;
 
 
+import ControllerClass.AuthorController;
 import ControllerClass.ReviewerController;
 import ETC.Papers;
+import static Gui.AuthorPapers.ID;
 import User.Reviewer;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -98,8 +100,14 @@ public class ReviewerPapers extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jToggleButton1 = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                formComponentAdded(evt);
+            }
+        });
 
         jButton4.setText("Main Menu");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -150,6 +158,13 @@ public class ReviewerPapers extends javax.swing.JFrame {
 
         jLabel1.setText("Current prefered work load : ????");
 
+        jButton1.setText("Download Paper");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,10 +174,11 @@ public class ReviewerPapers extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jToggleButton1)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)))
+                                .addComponent(jToggleButton1)
+                                .addGap(98, 98, 98)
+                                .addComponent(jButton1))
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE))
@@ -176,7 +192,9 @@ public class ReviewerPapers extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jToggleButton1)
+                            .addComponent(jButton1)))
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -230,9 +248,47 @@ public class ReviewerPapers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_formComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentAdded
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
+        try {
+            //download paper
+
+            ReviewerController RC =new ReviewerController();
+            JComboBox PTBox =new JComboBox();
+            
+            JPanel myPanel = new JPanel();
+            
+            ArrayList<Papers> al = RC.ViewPaperCon(ID);
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetPName());
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Paper you want to Download", JOptionPane.OK_CANCEL_OPTION);
+            
+            
+            
+            if(n == JOptionPane.OK_OPTION){ //
+                String PaperName = PTBox.getSelectedItem().toString();//getPaperName
+                try {
+                    RC.DownloadPaperCon(PaperName);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ReviewerPapers.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReviewerPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -266,6 +322,7 @@ public class ReviewerPapers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

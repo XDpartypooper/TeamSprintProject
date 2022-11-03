@@ -6,6 +6,7 @@
 package ControllerClass;
 
 import User.Reviewer;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -27,6 +28,16 @@ public class ReviewerController {
                 Logger.getLogger(ReviewerController.class.getName()).log(Level.SEVERE, null, ex);
             }
         return WL;
+    }
+        
+            public void DownloadPaperCon(String PaperName) throws SQLException
+    {
+            Reviewer R=new Reviewer();
+        try {
+            R.DownloadPaper(PaperName);
+        } catch (IOException ex) {
+            Logger.getLogger(AuthorController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
         
         public void EditWorkLoadCon(String WL,String ID) throws SQLException

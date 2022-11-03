@@ -8,12 +8,17 @@ package Gui;
 import ControllerClass.AuthorController;
 import ETC.Papers;
 import User.Author;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -57,6 +62,7 @@ public class AuthorPapers extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,29 +78,32 @@ public class AuthorPapers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Paper Name", "Author", "Co Author", "Paper ID", "Reviewer "
+                "Paper Name", "Author", "Co Author", "Paper ID", "Reviewer ", "Date submited"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(3);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(3);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(3);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(3);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(3);
         }
 
         jButton1.setText("Submit new Paper");
@@ -125,6 +134,13 @@ public class AuthorPapers extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("Download Paper");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,20 +148,25 @@ public class AuthorPapers extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton6)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -163,6 +184,8 @@ public class AuthorPapers extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,11 +209,13 @@ public class AuthorPapers extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             //Create paper
+            int n=0;
             JFrame  f=new JFrame();
             AuthorController AC= new AuthorController();
             
             JTextField NField = new JTextField(50);
             JComboBox PTBox =new JComboBox();
+            JButton JB = new JButton("Upload file");
             ArrayList<Author> al = AC.getAuthorsCon(ID);//get the user name of AUTHORS
             PTBox.addItem("");
             for (int i=0; i< al.size();i++)
@@ -203,26 +228,37 @@ public class AuthorPapers extends javax.swing.JFrame {
             myPanel.add(Box.createHorizontalStrut(15)); // a spacer
             myPanel.add(new JLabel("Co_Authors:"));
             myPanel.add(PTBox);
-            int n = JOptionPane.showConfirmDialog(null, myPanel,"Please Enter details paper ", JOptionPane.OK_CANCEL_OPTION);
-            
-            String PaperName = NField.getText();//get name of paper
-            String CO_name = PTBox.getSelectedItem().toString();//get name of co author
-             if(n == JOptionPane.OK_OPTION){
-                if((PaperName.isEmpty()) )
-                {
-                    //error message pop up if empty
-                    JFrame E=new JFrame();
-                    JOptionPane.showMessageDialog(E,"No Paper name Entered","ERROR",JOptionPane.ERROR_MESSAGE);
-                }
-                else
-                {
-                    try {                  
-                        AC.SubmitPaperCOn(PaperName,ID,CO_name);                   
-                        refreshSearch("");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
-                    }  
-                }
+
+            JFileChooser fc = new JFileChooser();
+            int returnVal = fc.showOpenDialog(JB);// file chooser
+           
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+
+
+                n = JOptionPane.showConfirmDialog(null, myPanel,"Please Enter details paper ", JOptionPane.OK_CANCEL_OPTION);
+                     
+                String PaperName = NField.getText();//get name of paper
+                String CO_name = PTBox.getSelectedItem().toString();//get name of co author
+                
+                if(n == JOptionPane.OK_OPTION){
+                    if((PaperName.isEmpty()) )
+                    {
+                        //error message pop up if empty
+                        JFrame E=new JFrame();
+                        JOptionPane.showMessageDialog(E,"No Paper name Entered","ERROR",JOptionPane.ERROR_MESSAGE);
+                    }
+                    else
+                    {
+                        try {       
+                            //
+                            AC.SubmitPaperCOn(PaperName,ID,CO_name,file);                    
+                            refreshSearch("");
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
+                        }  
+                    }
+             }
              }
         } catch (SQLException ex) {
             Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
@@ -237,6 +273,7 @@ public class AuthorPapers extends javax.swing.JFrame {
            
             JComboBox PTBox1 =new JComboBox();
             JComboBox PTBox =new JComboBox();
+            JButton  j1=new JButton ("Choose file");
 
             JTextField UField = new JTextField(50);
             JPanel myPanel = new JPanel();
@@ -261,14 +298,25 @@ public class AuthorPapers extends javax.swing.JFrame {
             myPanel.add(Box.createHorizontalStrut(15)); // a spacer
             myPanel.add(new JLabel("Co Author:"));
             myPanel.add(PTBox);
+             myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            myPanel.add(new JLabel("File(optional):"));
+            myPanel.add(j1);
+            
+             JFileChooser fc = new JFileChooser();
+            j1.addActionListener(e -> {
+              
+               fc.showSaveDialog(null);
+               
+            });
             int n=JOptionPane.showConfirmDialog(null, myPanel,"Select and enter the details of the Updated Paper", JOptionPane.OK_CANCEL_OPTION);
             
            if(n == JOptionPane.OK_OPTION){ // 
+           File file = fc.getSelectedFile();
                 String PaperName = PTBox1.getSelectedItem().toString();//getPaperName    
-                 String NewPaperName = UField.getText();//get username 
-                 String co_Author = PTBox.getSelectedItem().toString();//getPaperName
+                String NewPaperName = UField.getText();//get username 
+                String co_Author = PTBox.getSelectedItem().toString();//getPaperName
 
-                 AC.UpdatePaperCon(PaperName,NewPaperName,co_Author);//update paper        
+                 AC.UpdatePaperCon(PaperName,NewPaperName,co_Author,file);//update paper        
                  
                  refreshSearch("");
            }
@@ -300,8 +348,7 @@ public class AuthorPapers extends javax.swing.JFrame {
             
             String PaperName = PTBox.getSelectedItem().toString();//getPaperName
             //delete
-         
-            JFrame c=new JFrame();
+            
             int a=JOptionPane.showConfirmDialog(myPanel,"Are you sure you want to delete Paper ?");
 
                if(a==JOptionPane.YES_OPTION)
@@ -327,6 +374,36 @@ public class AuthorPapers extends javax.swing.JFrame {
         refreshSearch(Word);
         Word=null;
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            // TODO add your handling code here:
+            //download paper
+            AuthorController AC= new AuthorController();
+            JComboBox PTBox =new JComboBox();
+            
+            JPanel myPanel = new JPanel();
+            
+            ArrayList<Papers> al = AC.ViewPaperCon("",ID);
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetPName());
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Paper you want to Download", JOptionPane.OK_CANCEL_OPTION);
+            
+
+            
+           if(n == JOptionPane.OK_OPTION){ // 
+                String PaperName = PTBox.getSelectedItem().toString();//getPaperName
+                AC.DownloadPaperCon( PaperName, ID);
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
      public void ClosePanel()
     {
         setVisible(false);
@@ -393,6 +470,7 @@ public class AuthorPapers extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

@@ -53,4 +53,4 @@ added submit TXT.file fuction for submit paper and download txt function for Aut
 added submit TXT.file fuction for update paper for author
 and download txt function for Reviewer -Roy 4/11/22 
 
-added half working bidding system for reviewer side (left conchair side)-Roy 5/11/22 
+added working bidding system for reviewer side and Conchair side-Roy 5/11/22 

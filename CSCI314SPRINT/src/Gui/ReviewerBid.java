@@ -267,7 +267,7 @@ public class ReviewerBid extends javax.swing.JFrame {
             JPanel myPanel = new JPanel();
             ReviewerController RC= new ReviewerController();
             
-            ArrayList<Bids> al = RC.ViewBidCon(ID);
+            ArrayList<Bids> al = RC.ViewBidDelCon(ID);
             for (int i=0; i< al.size();i++)
             {
                 PTBox.addItem(al.get(i).GetPName());

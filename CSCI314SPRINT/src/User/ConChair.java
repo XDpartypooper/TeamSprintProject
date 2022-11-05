@@ -81,6 +81,10 @@ public class ConChair extends UserProfile{
     }
     
     
+ 
+      
+    
+    
     public ArrayList ViewSearchPapers(String word,String Search) throws SQLException
     {
         // allocated papers

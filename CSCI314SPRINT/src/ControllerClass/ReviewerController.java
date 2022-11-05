@@ -73,13 +73,19 @@ public class ReviewerController {
     public ArrayList ViewBidCon(String ID) throws SQLException 
     {
         //returns all papers 
-        ArrayList al=null;
-               
+        ArrayList al=null;      
         Reviewer R=new Reviewer();
         al = R.ViewBid(ID);
-        
-        return al;  
-        
+        return al;    
+    }
+    
+    public ArrayList ViewBidDelCon(String ID) throws SQLException 
+    {
+        //returns all papers 
+        ArrayList al=null;      
+        Reviewer R=new Reviewer();
+        al = R.ViewBidDel(ID);
+        return al;    
     }
     
     public void BidPaperCon(String paperName,String ID) throws SQLException

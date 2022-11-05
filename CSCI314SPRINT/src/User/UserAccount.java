@@ -254,6 +254,7 @@ public class UserAccount {
        mySmt.setString(1, ID);//User entered
          
        check = mySmt.execute();
+        
        conn.close();  
        return check;
     }

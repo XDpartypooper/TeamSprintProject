@@ -85,10 +85,10 @@ public class Reviewer extends UserProfile{
          }
          else//make new entry
          {
-         mySmt = conn.prepareStatement("INSERT INTO Reviewer (ReviewerID,WorkLoad) VALUES (?, ?);");          
-         mySmt.setString(1, ID);//newPname  
-         mySmt.setString(2, WL);//CoAuthorID    
-         mySmt.executeUpdate();
+            mySmt = conn.prepareStatement("INSERT INTO Reviewer (ReviewerID,WorkLoad) VALUES (?, ?);");          
+            mySmt.setString(1, ID);//newPname  
+            mySmt.setString(2, WL);//CoAuthorID    
+            mySmt.executeUpdate();
          }
         
         
@@ -119,6 +119,31 @@ public class Reviewer extends UserProfile{
          conn.close();
         return al;
     }
+    
+    public ArrayList ViewBidDel(String ID) throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select  papers.PaperName, bids.PaperID , Bid_status from bids inner join papers where bids.PaperID=papers.PaperID and BidderID=? and Bid_status=0");  
+        mySmt.setString(1, ID);//reviewer id
+       
+        
+        rs = mySmt.executeQuery();
+        ArrayList<Bids> al = new ArrayList<Bids>();
+        
+         while(rs.next()) //find works
+         {
+   
+                Bids B = new Bids(rs.getString(1),rs.getString(2),rs.getInt(3));
+                //paper name , status
+                al.add(B);                       
+         }
+         conn.close();
+        return al;
+    }
+    
     
     public ArrayList ViewPapers(String ID,int choice) throws SQLException
     {
@@ -195,14 +220,21 @@ public class Reviewer extends UserProfile{
         PreparedStatement mySmt = conn.prepareStatement("Select * from papers where PaperName = ? ");  
         mySmt.setString(1, paperName);//reviewer id
          rs = mySmt.executeQuery();
-        
          if(rs.next()) //find works
          {                                
             paperName = rs.getString(4);  //get PaperID             
          }
-        
-        
-         mySmt = conn.prepareStatement("INSERT INTO Bids (PaperID,BidderID,Bid_status) VALUES (?, ?, null);");          
+         
+        mySmt = conn.prepareStatement("Select * from Bids where PaperID = ? and BidderID =?");
+        mySmt.setString(1, paperName);//reviewer id
+        mySmt.setString(2, ID);//reviewer id
+         if(rs.next()) //find works
+         {                                
+            JOptionPane.showMessageDialog(null,"You cannot place more then 1 bid on a paper");  
+            throw new SQLException();
+         }
+       
+         mySmt = conn.prepareStatement("INSERT INTO Bids (PaperID,BidderID,Bid_status) VALUES (?, ?, 0);");          
          mySmt.setString(1, paperName);//newPname  
          mySmt.setString(2, ID);//CoAuthorID    
          mySmt.executeUpdate();   
@@ -223,6 +255,9 @@ public class Reviewer extends UserProfile{
          {                                
             paperName = rs.getString(4);  //get PaperID             
          }
+         
+   
+         
 
           mySmt = conn.prepareStatement("delete from Bids where PaperID=? and BidderID=?"); 
           mySmt.setString(1, paperName);//Paper ID  

@@ -56,7 +56,7 @@ INSERT INTO Reviewer VALUES ('004', null);
 -- dummy value for author 
 INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', '004',null,'2011-11-11');
 INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', '004',null,'1998-09-09');
-INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null,null,'2022-001-01');
+INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null,null,'2022-01-01');
 INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4', null,null,'2022-07-27');
 -- dummy papers has no txt tag to it
 -- bids 

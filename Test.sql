@@ -16,6 +16,7 @@ INSERT INTO Users VALUES ('Author','Password2','Bruh2@uow.com','Author','002');
 INSERT INTO Users VALUES ('ConChair','Password3','Bruh3@uow.com','Conference Chair','003');
 INSERT INTO Users VALUES ('Reviewer','Password4','Bruh4@uow.com','Reviewer','004');
 INSERT INTO Users VALUES ('Author2','Password2','Bruh5@uow.com','Author','005');
+INSERT INTO Users VALUES ('Reviewer2','Password4','Bruh4@uow.com','Reviewer','006');
 
 DROP TABLE if exists usertype;
 
@@ -63,14 +64,9 @@ DROP TABLE if exists Bids;
 CREATE TABLE Bids  (
 	PaperID     		 		VARCHAR(4)		NOT NULL, 
 	BidderID     		 		VARCHAR(4),
-	Bid_status					BOOL     NOT NULL,
-
-CONSTRAINT bids_PKEY PRIMARY KEY (PaperID)
+	Bid_status					int    
 );
-INSERT INTO Bids VALUES ('1' , "004" , false);
-
 -- to here
-
 
 
 
@@ -82,8 +78,11 @@ select * from users; -- view table users
 select * from usertype; 
 select * from papers; 
 select * from Reviewer; 
-
 select * from Bids; 
+
+update Bids set Bid_status = true where BidderID='004' and  PaperID = '3';
+update Bids set Bid_status = false where BidderID!='004' and  PaperID = '3';
+
 select * from Comment; 
 select * from reviews;
  select * from Rating;
@@ -93,7 +92,7 @@ select * from reviews;
 
 
 -- comment
-CREATE TABLE Comment  (
+CREATE TABLE comments  (
 	PaperID     		 		VARCHAR(4)		NOT NULL, 
 
 CONSTRAINT Comment_PKEY PRIMARY KEY (PaperID)

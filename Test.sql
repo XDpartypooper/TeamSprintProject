@@ -51,17 +51,25 @@ CREATE TABLE Reviewer  (
 	WorkLoad				    VARCHAR(4),
 CONSTRAINT Reviewer_PKEY PRIMARY KEY (ReviewerID)
 );
-
+INSERT INTO Reviewer VALUES ('004', null);
 -- dummy value for author 
 INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', '004',null,CURDATE());
 INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', '004',null,CURDATE());
 INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null,null,CURDATE());
 INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4', null,null,CURDATE());
 -- dummy papers has no txt tag to it
-INSERT INTO Reviewer VALUES ('004', null);
+-- bids 
+DROP TABLE if exists Bids;
+CREATE TABLE Bids  (
+	PaperID     		 		VARCHAR(4)		NOT NULL, 
+	BidderID     		 		VARCHAR(4),
+	Bid_status					BOOL     NOT NULL,
+
+CONSTRAINT bids_PKEY PRIMARY KEY (PaperID)
+);
+INSERT INTO Bids VALUES ('1' , "004" , false);
+
 -- to here
-
-
 
 
 
@@ -82,15 +90,7 @@ select * from reviews;
  
 -- testing stuff below
 
--- bids 
-CREATE TABLE Bids  (
-	PaperID     		 		VARCHAR(4)		NOT NULL, 
-	Bids					    VARCHAR(10),
-	BidderID     		 		VARCHAR(4),
-	Bid status					VARCHAR(10)     NOT NULL,
 
-CONSTRAINT bids_PKEY PRIMARY KEY (PaperID)
-);
 
 -- comment
 CREATE TABLE Comment  (

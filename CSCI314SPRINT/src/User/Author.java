@@ -162,12 +162,8 @@ public class Author extends UserProfile{
             mySmt = conn.prepareStatement("Select * from papers where PaperName like ? and AuthorID = ? or co_AuthorID=? ");
             mySmt.setString(1,'%'+word+'%');//
             mySmt.setString(2, ID);//author name
-            mySmt.setString(3, ID);//Co author name
-           
-        }
-        
-        
-        
+            mySmt.setString(3, ID);//Co author name       
+        }  
         rs = mySmt.executeQuery();
         
         ArrayList<Papers> al = new ArrayList<Papers>();

@@ -6,7 +6,21 @@
 package Gui;
 
 
+import ControllerClass.ReviewerController;
+import ETC.Bids;
+import ETC.Papers;
+import static Gui.ReviewerPapers.ID;
 import User.Reviewer;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Box;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,6 +37,7 @@ public class ReviewerBid extends javax.swing.JFrame {
         this.ID=ID;
         initComponents();      
         setLocationRelativeTo(null);
+        TableRefresh();
     }
     
      public void ClosePanel()
@@ -30,6 +45,38 @@ public class ReviewerBid extends javax.swing.JFrame {
         setVisible(false);
         dispose();
     }
+     
+         public void TableRefresh()
+    {
+        
+         try {
+            // TODO add your handling code here:
+            //refresh Tables
+            DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
+            DefaultTableModel tbm2= (DefaultTableModel)jTable2.getModel();
+            tbm1.setRowCount(0);
+            tbm2.setRowCount(0);
+            ReviewerController RC= new ReviewerController();
+            
+            
+            ArrayList<Papers> al = RC.ViewBidPaperCon(ID,1);
+            
+            for (int i=0; i< al.size();i++)
+            {
+                tbm1.addRow(al.get(i).GetPaper());
+                
+            }
+            ArrayList<Bids> al1 = RC.ViewBidCon(ID);
+             for (int i=0; i< al1.size();i++)
+            {
+                tbm2.addRow(al1.get(i).GetBid());
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+//select  papers.PaperName , Bid_status from bids inner join papers where bids.PaperID=papers.PaperID
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,6 +88,12 @@ public class ReviewerBid extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton4 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,21 +104,103 @@ public class ReviewerBid extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Paper Name", "Author", "Co Author", "Paper ID"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Author");
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Co Author");
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("Paper ID");
+        }
+
+        jTabbedPane1.addTab("Unallocated Paper", jScrollPane1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Paper Name", "Paper ID", "BId status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(3);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(3);
+        }
+
+        jTabbedPane1.addTab("Bidded papers", jScrollPane2);
+
+        jButton1.setText("Bid a Paper");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(667, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 959, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(379, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -78,6 +213,39 @@ public class ReviewerBid extends javax.swing.JFrame {
         R.GotoReviewMenu(name,ID);
         ClosePanel();//close menu
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            JComboBox PTBox =new JComboBox();
+            JPanel myPanel = new JPanel();
+            ReviewerController RC= new ReviewerController();
+            ArrayList<Papers> al = RC.ViewBidPaperCon(ID,1);
+            
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetPName());
+                
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Paper you want to Bid", JOptionPane.OK_CANCEL_OPTION);
+            
+            
+            // bid here
+            if(n == JOptionPane.OK_OPTION){
+                //sql shit make new bid
+                 String paperName = PTBox.getSelectedItem().toString();//get name of co author
+                 RC.BidPaperCon( paperName,ID);
+                 TableRefresh();
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ReviewerBid.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"There was an error, or you have already bid this paper!","Error",JOptionPane.ERROR_MESSAGE);
+        }      
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,6 +283,12 @@ public class ReviewerBid extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }

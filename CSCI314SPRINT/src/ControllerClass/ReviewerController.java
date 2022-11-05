@@ -52,10 +52,40 @@ public class ReviewerController {
         ArrayList al=null;
                
         Reviewer R=new Reviewer();
-        al = R.ViewPapers(ID);
+        al = R.ViewPapers(ID,0);
+        
+        return al;  
+        
+    }
+        
+          public ArrayList ViewBidPaperCon(String ID,int choice) throws SQLException 
+    {
+        //returns all papers 
+        ArrayList al=null;
+               
+        Reviewer R=new Reviewer();
+        al = R.ViewPapers(ID,choice);
+        
+        return al;  
+        
+    }
+          
+    public ArrayList ViewBidCon(String ID) throws SQLException 
+    {
+        //returns all papers 
+        ArrayList al=null;
+               
+        Reviewer R=new Reviewer();
+        al = R.ViewBid(ID);
         
         return al;  
         
     }
     
+    public void BidPaperCon(String paperName,String ID) throws SQLException
+    {
+    Reviewer R=new Reviewer();  
+    R.BidPaper( paperName, ID);
+    }
+   
 }

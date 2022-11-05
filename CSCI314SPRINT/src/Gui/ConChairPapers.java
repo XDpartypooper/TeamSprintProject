@@ -276,7 +276,7 @@ public class ConChairPapers extends javax.swing.JFrame {
 
             JPanel myPanel = new JPanel();
             
-            ArrayList<Papers> al = CCC.ViewPaperCon(1,null,null);
+            ArrayList<Papers> al = CCC.ViewPaperCon(3,null,null);
             for (int i=0; i< al.size();i++)
             {
                 PTBox1.addItem(al.get(i).GetPName());//name of paper

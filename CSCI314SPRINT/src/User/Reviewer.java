@@ -3,6 +3,7 @@
  */
 package User;
 
+import ETC.Bids;
 import ETC.Papers;
 import Gui.ReviewerMenu;
 import Gui.ReviewerPapers;
@@ -67,17 +68,53 @@ public class Reviewer extends UserProfile{
         ResultSet rs =null;
 
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from Reviewer where ReviewerID = ? ");  
-        mySmt = conn.prepareStatement("update Reviewer set WorkLoad = ? where ReviewerID=?"); 
-        mySmt.setString(1, WL);//get name from ID id
-        mySmt.setString(2, ID);//get name from ID id
+        PreparedStatement mySmt = conn.prepareStatement("Select * from Reviewer where ReviewerID = ? "); 
+        
+         if(rs.next()) //exist
+         {                                
+            mySmt = conn.prepareStatement("update Reviewer set WorkLoad = ? where ReviewerID=?"); 
+            mySmt.setString(1, WL);//get name from ID id
+            mySmt.setString(2, ID);//get name from ID id
 
-        mySmt.executeUpdate();
+            mySmt.executeUpdate();      
+         }
+         else//make new entry
+         {
+         mySmt = conn.prepareStatement("INSERT INTO Reviewer (ReviewerID,WorkLoad) VALUES (?, ?);");          
+         mySmt.setString(1, ID);//newPname  
+         mySmt.setString(2, WL);//CoAuthorID    
+         mySmt.executeUpdate();
+         }
+        
+        
          
         conn.close();
     }
     
-    public ArrayList ViewPapers(String ID) throws SQLException
+    public ArrayList ViewBid(String ID) throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select  papers.PaperName, bids.PaperID , Bid_status from bids inner join papers where bids.PaperID=papers.PaperID and BidderID=?");  
+        mySmt.setString(1, ID);//reviewer id
+       
+        
+        rs = mySmt.executeQuery();
+        ArrayList<Bids> al = new ArrayList<Bids>();
+        
+         while(rs.next()) //find works
+         {
+   
+                Bids B = new Bids(rs.getString(1),rs.getString(2),rs.getBoolean(3));
+                //paper name , status
+                al.add(B);                       
+         }
+         conn.close();
+        return al;
+    }
+    public ArrayList ViewPapers(String ID,int choice) throws SQLException
     {
         java.sql.Connection conn=null;
         ResultSet rs =null;
@@ -85,8 +122,13 @@ public class Reviewer extends UserProfile{
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
         PreparedStatement mySmt = conn.prepareStatement("Select * from papers where ALReviewerID = ? ");  
         mySmt.setString(1, ID);//reviewer id
-        rs = mySmt.executeQuery();
+       
         
+        if(choice==1)
+        {
+             mySmt = conn.prepareStatement("Select * from papers where ALReviewerID is null order by PaperID asc"); 
+        }
+        rs = mySmt.executeQuery();
         ArrayList<Papers> al = new ArrayList<Papers>();
         
          while(rs.next()) //find works
@@ -137,8 +179,31 @@ public class Reviewer extends UserProfile{
                 JOptionPane.showMessageDialog(null,"File downloaded At "+dir);
          }
          conn.close();
-
     }
+     
+     
+     public void BidPaper(String paperName,String ID) throws SQLException
+     {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("Select * from papers where PaperName = ? ");  
+        mySmt.setString(1, paperName);//reviewer id
+         rs = mySmt.executeQuery();
+        
+         if(rs.next()) //find works
+         {                                
+            paperName = rs.getString(4);  //get PaperID             
+         }
+        
+        
+         mySmt = conn.prepareStatement("INSERT INTO Bids (PaperID,BidderID,Bid_status) VALUES (?, ?, false);");          
+         mySmt.setString(1, paperName);//newPname  
+         mySmt.setString(2, ID);//CoAuthorID    
+         mySmt.executeUpdate();       
+     }
+     
     
      
     public void GotoReviewMenu(String name,String ID)

@@ -40,6 +40,23 @@ public class ConChairController {
     return al;         
     }
        
+    public ArrayList ViewBidCon() throws SQLException 
+    {
+        //returns all papers 
+        ArrayList al=null;
+               
+        ConChair CC=new ConChair();
+        al = CC.ViewBid();
+        
+        return al;         
+    }
+    
+    public void UpdateBidstatusCon(String PaperName,String Reviewer) throws SQLException
+    {
+        ConChair CC=new ConChair();
+         CC.UpdateBidstatus(PaperName,Reviewer);
+    }
+       
       public ArrayList getReviewersCon() throws SQLException
       {
           ArrayList al=null;
@@ -53,6 +70,7 @@ public class ConChairController {
         ConChair CC=new ConChair();  
            try {
                CC.UpdatePaper(PaperName,Reviewer);
+               UpdateBidstatusCon(PaperName,Reviewer);
            } catch (SQLException ex) {
                Logger.getLogger(ConChairController.class.getName()).log(Level.SEVERE, null, ex);
            }

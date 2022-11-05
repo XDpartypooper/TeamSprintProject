@@ -6,6 +6,7 @@
 package Gui;
 
 import ControllerClass.ConChairController;
+import ETC.Bids;
 import ETC.Papers;
 import User.ConChair;
 import User.Reviewer;
@@ -36,7 +37,7 @@ public class ConChairPapers extends javax.swing.JFrame {
         this.ID=ID;
         initComponents();
         setLocationRelativeTo(null);
-        refreshSearch(null);
+        refreshSearch("");
     }
 
     /**
@@ -59,6 +60,8 @@ public class ConChairPapers extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
@@ -201,6 +204,36 @@ public class ConChairPapers extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Non Allocated Papers", jScrollPane3);
 
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Paper Name", "Bidder", "Bid status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(jTable4);
+        if (jTable4.getColumnModel().getColumnCount() > 0) {
+            jTable4.getColumnModel().getColumn(0).setResizable(false);
+            jTable4.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable4.getColumnModel().getColumn(1).setResizable(false);
+            jTable4.getColumnModel().getColumn(1).setPreferredWidth(3);
+            jTable4.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jTabbedPane1.addTab("Bids", jScrollPane4);
+
         jButton3.setText("Search Paper");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,7 +332,6 @@ public class ConChairPapers extends javax.swing.JFrame {
                  String Reviewer = PTBox.getSelectedItem().toString();//getPaperName
 
                  CCC.UpdatePaperCon(PaperName,Reviewer);//update paper        
-                 
                  refreshSearch("");
            }
             
@@ -350,27 +382,37 @@ public class ConChairPapers extends javax.swing.JFrame {
             DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
             DefaultTableModel tbm2= (DefaultTableModel)jTable2.getModel();
             DefaultTableModel tbm3= (DefaultTableModel)jTable3.getModel();
-            tbm1.setRowCount(0);
-            tbm2.setRowCount(0);
-            tbm3.setRowCount(0);
+            DefaultTableModel tbm4= (DefaultTableModel)jTable4.getModel();
             ConChairController CCC= new ConChairController();
             
             if (word==null || word.isEmpty())
             {
+                    tbm1.setRowCount(0);
+                    tbm2.setRowCount(0);
+                    tbm3.setRowCount(0);
+                    tbm4.setRowCount(0);
                ArrayList<Papers> al1 = CCC.ViewPaperCon(1,word,Search);
                 for (int i=0; i< al1.size();i++)
                 {
                     tbm1.addRow(al1.get(i).GetPaper());
                 }
+                
                 ArrayList<Papers> al2 = CCC.ViewPaperCon(2,word,Search);
                 for (int i=0; i< al2.size();i++)
                 {
                     tbm2.addRow(al2.get(i).GetPaper());
                 }
+                
                 ArrayList<Papers> al3 = CCC.ViewPaperCon(3,word,Search);
                 for (int i=0; i< al3.size();i++)
                 {
                     tbm3.addRow(al3.get(i).GetPaper());
+                }
+                
+                ArrayList<Bids> al4 = CCC.ViewBidCon();
+                for (int i=0; i< al4.size();i++)
+                {
+                   tbm4.addRow(al4.get(i).GetCCBid());
                 }
             }
             else
@@ -378,6 +420,10 @@ public class ConChairPapers extends javax.swing.JFrame {
                ArrayList<Papers> al4 = CCC.ViewPaperCon(4,word,Search);
                 for (int i=0; i< al4.size();i++)
                 {
+                    tbm1.setRowCount(0);
+                    tbm2.setRowCount(0);
+                    tbm3.setRowCount(0);
+                    
                     tbm1.addRow(al4.get(i).GetPaper());
                     tbm2.addRow(al4.get(i).GetPaper());
                     tbm3.addRow(al4.get(i).GetPaper());
@@ -433,10 +479,12 @@ public class ConChairPapers extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

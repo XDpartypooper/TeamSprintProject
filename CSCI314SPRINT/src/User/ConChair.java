@@ -3,6 +3,7 @@
  */
 package User;
 
+import ETC.Bids;
 import ETC.Papers;
 import Gui.ConChairMenu;
 import Gui.ConChairPapers;
@@ -58,6 +59,28 @@ public class ConChair extends UserProfile{
         return al;
     }
     
+    public ArrayList ViewBid() throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select  papers.PaperName, bids.PaperID ,bids.BidderID, Bid_status from bids inner join papers where bids.PaperID=papers.PaperID ORDER BY Bid_status ASC");  
+ 
+        rs = mySmt.executeQuery();
+        ArrayList<Bids> al = new ArrayList<Bids>();
+        
+         while(rs.next()) //find works
+         {
+                Bids B = new Bids(rs.getString(1),rs.getString(2),GetNameDB(rs.getString(3)),rs.getInt(4));
+                //paper name ,paper id, BidderID, status
+                al.add(B);                       
+         }
+         conn.close();
+        return al;
+    }
+    
+    
     public ArrayList ViewSearchPapers(String word,String Search) throws SQLException
     {
         // allocated papers
@@ -110,6 +133,34 @@ public class ConChair extends UserProfile{
            conn.close();
     
     }
+    
+    public void UpdateBidstatus(String PaperName,String Reviewer) throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        String paperID=null;
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt=conn.prepareStatement("Select * from papers where PaperName = ?");
+        mySmt.setString(1, PaperName);//Paper id
+        
+        rs = mySmt.executeQuery();
+         
+         Reviewer=GetUserID(Reviewer);// convert reviewer name to ID
+         if(rs.next()) //find works
+         {                                
+            paperID = rs.getString(4);  //get PaperID             
+         }
+         mySmt= conn.prepareStatement("update Bids set Bid_status = 1 where BidderID=? and  PaperID = ?");  
+         mySmt.setString(1, Reviewer);//CoAuthorID
+         mySmt.setString(2, paperID);//CoAuthorID
+         mySmt.executeUpdate();
+         
+         mySmt= conn.prepareStatement("update Bids set Bid_status = 2 where BidderID!=? and  PaperID = ?"); 
+         mySmt.setString(1, Reviewer);//CoAuthorID
+         mySmt.setString(2, paperID);//CoAuthorID
+         mySmt.executeUpdate();
+    }
+    
     
      public ArrayList getReviewers() throws SQLException
     {

@@ -168,12 +168,4 @@ public class UserProfile {
         return name;
     }
       
-      
-
-
-   
-    //SystemAdmin
-    //ConChair
-    //Reviewer
-    //Author
 }

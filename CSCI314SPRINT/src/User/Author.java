@@ -187,9 +187,7 @@ public class Author extends UserProfile{
         mySmt = conn.prepareStatement("Select * from papers where PaperName =? and AuthorID =?"); 
         mySmt.setString(1, PaperName);//author name
         mySmt.setString(2, ID);//Co author name
-        
-
-        
+ 
         rs = mySmt.executeQuery();
         
         ArrayList<Papers> al = new ArrayList<Papers>();

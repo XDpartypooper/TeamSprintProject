@@ -48,7 +48,7 @@ public class ReviewerPapers extends javax.swing.JFrame {
         String WL = RC.WorkLoadGetCon(ID);
         
         System.out.println(WL);
-        if(WL==null || WL=="")
+        if(WL==null || WL=="" || WL=="0")
         {
              jLabel1.setText("No current prefered work load");
         }

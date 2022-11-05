@@ -38,6 +38,8 @@ public class Papers{
         return file;
     }
     
+    
+    
      public String GetAuthor()
     {       
         return Author;

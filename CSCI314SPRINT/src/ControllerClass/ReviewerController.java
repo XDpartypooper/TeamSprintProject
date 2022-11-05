@@ -88,4 +88,11 @@ public class ReviewerController {
     R.BidPaper( paperName, ID);
     }
    
+    public void DeleteBidPaperCon(String paperName,String ID) throws SQLException
+    {
+        Reviewer R=new Reviewer();  
+        R.DeleteBidPaper( paperName, ID);
+    }
+    
+    
 }

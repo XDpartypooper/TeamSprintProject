@@ -94,6 +94,7 @@ public class ReviewerBid extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,6 +176,13 @@ public class ReviewerBid extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Delete Bid");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,6 +195,8 @@ public class ReviewerBid extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -195,9 +205,11 @@ public class ReviewerBid extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                 .addContainerGap())
@@ -217,6 +229,7 @@ public class ReviewerBid extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
+            //bid paper
             JComboBox PTBox =new JComboBox();
             JPanel myPanel = new JPanel();
             ReviewerController RC= new ReviewerController();
@@ -246,6 +259,36 @@ public class ReviewerBid extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"There was an error, or you have already bid this paper!","Error",JOptionPane.ERROR_MESSAGE);
         }      
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            JComboBox PTBox =new JComboBox();
+            JPanel myPanel = new JPanel();
+            ReviewerController RC= new ReviewerController();
+            
+            ArrayList<Bids> al = RC.ViewBidCon(ID);
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetPName());
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Paper's Bid you want to delete", JOptionPane.OK_CANCEL_OPTION);
+            
+             if(n == JOptionPane.OK_OPTION){
+                //sql shit make new bid
+                 String paperName = PTBox.getSelectedItem().toString();//get name of co author
+                 RC.DeleteBidPaperCon(paperName,ID);
+                 TableRefresh();
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ReviewerBid.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,6 +327,7 @@ public class ReviewerBid extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -1,3 +1,4 @@
+
 -- run code from here
 DROP TABLE if exists Users;
 -- CREATE TABLE users
@@ -54,8 +55,8 @@ CONSTRAINT Reviewer_PKEY PRIMARY KEY (ReviewerID)
 );
 INSERT INTO Reviewer VALUES ('004', null);
 -- dummy value for author 
-INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', '004',null,'2011-11-11');
-INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', '004',null,'1998-09-09');
+INSERT INTO papers VALUES ('Lusty Argonian Maid Folio','002',null,'1', null,null,'2011-11-11');
+INSERT INTO papers VALUES ('RoRos bizare adventure','005',null,'2', null,null,'1998-09-09');
 INSERT INTO papers VALUES ('Idoit guides to being a Conchair','002',null,'3', null,null,'2022-01-01');
 INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4', null,null,'2022-07-27');
 -- dummy papers has no txt tag to it
@@ -66,10 +67,16 @@ CREATE TABLE Bids  (
 	BidderID     		 		VARCHAR(4),
 	Bid_status					int    			NOT NULL
 );
+-- reviews
+DROP TABLE if exists Reviews;
+CREATE TABLE Reviews  (
+	PaperID     		 		VARCHAR(4)		NOT NULL, 
+    ReviewerID   		 		VARCHAR(4)		, 
+	Review						VARCHAR(500)	,
+	Rating						int				, -- null means pending or deleted currently
+CONSTRAINT Reviews_PKEY PRIMARY KEY (PaperID)
+);
 -- to here
-
-
-
 
 
 
@@ -81,16 +88,11 @@ select * from users; -- view table users
 select * from usertype; 
 select * from papers; 
 select * from Reviewer; 
+select * from Reviews; 
 select * from Bids; 
 
-update Bids set Bid_status = true where BidderID='004' and  PaperID = '3';
-update Bids set Bid_status = false where BidderID!='004' and  PaperID = '3';
-
-select * from Comment; 
-select * from reviews;
- select * from Rating;
- 
 -- testing stuff below
+
 
 
 
@@ -100,14 +102,5 @@ CREATE TABLE comments  (
 
 CONSTRAINT Comment_PKEY PRIMARY KEY (PaperID)
 );
--- rating
-CREATE TABLE Rating  (
-	PaperID     		 		VARCHAR(4)		NOT NULL, 
 
-CONSTRAINT Rating_PKEY PRIMARY KEY (PaperID)
-);
--- reviews
-CREATE TABLE reviews  (
-	PaperID     		 		VARCHAR(4)		NOT NULL, 
-CONSTRAINT Reviews_PKEY PRIMARY KEY (PaperID)
-);
+

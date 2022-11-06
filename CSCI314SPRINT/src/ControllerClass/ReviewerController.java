@@ -49,11 +49,9 @@ public class ReviewerController {
         public ArrayList ViewPaperCon(String ID) throws SQLException 
     {
         //returns all papers 
-        ArrayList al=null;
-               
+        ArrayList al=null;         
         Reviewer R=new Reviewer();
-        al = R.ViewPapers(ID,0);
-        
+        al = R.ViewPapers(ID,0);   
         return al;  
         
     }
@@ -61,13 +59,10 @@ public class ReviewerController {
           public ArrayList ViewBidPaperCon(String ID,int choice) throws SQLException 
     {
         //returns all papers 
-        ArrayList al=null;
-               
+        ArrayList al=null;          
         Reviewer R=new Reviewer();
-        al = R.ViewPapers(ID,choice);
-        
-        return al;  
-        
+        al = R.ViewPapers(ID,choice);     
+        return al;    
     }
           
     public ArrayList ViewBidCon(String ID) throws SQLException 
@@ -77,6 +72,14 @@ public class ReviewerController {
         Reviewer R=new Reviewer();
         al = R.ViewBid(ID);
         return al;    
+    }
+    
+      public ArrayList ReviewedPaperCon(String ID) throws SQLException
+    {
+        ArrayList al=null;
+        Reviewer R=new Reviewer();
+        al=R.ReviewedPaper(ID);
+        return al;  
     }
     
     public ArrayList ViewBidDelCon(String ID) throws SQLException 
@@ -98,6 +101,18 @@ public class ReviewerController {
     {
         Reviewer R=new Reviewer();  
         R.DeleteBidPaper( paperName, ID);
+    }
+    
+    public void ReviewerSUBUPCON(String paperName,String Review,int Rating) throws SQLException
+    {
+        Reviewer R=new Reviewer();  
+        R.ReviewerSUBUP( paperName, Review,Rating);
+    }
+    
+    public void DeleteReviewCon(String paperName) throws SQLException
+    {
+        Reviewer R=new Reviewer();  
+        R.DeleteReview( paperName);
     }
     
     

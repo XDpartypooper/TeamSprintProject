@@ -169,7 +169,7 @@ public class ReviewerBid extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Bidded papers", jScrollPane2);
 
-        jButton1.setText("Bid a Paper");
+        jButton1.setText("Bid Paper");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

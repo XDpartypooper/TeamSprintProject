@@ -9,6 +9,8 @@ package Gui;
 
 import ControllerClass.ReviewerController;
 import ETC.Papers;
+import ETC.Reviews;
+import static Gui.AuthorPapers.ID;
 import User.Reviewer;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -47,7 +50,6 @@ public class ReviewerPapers extends javax.swing.JFrame {
         ReviewerController RC= new ReviewerController();
         String WL = RC.WorkLoadGetCon(ID);
         
-        System.out.println(WL);
         if(WL==null || WL=="" || WL=="0")
         {
              jLabel1.setText("No current prefered work load");
@@ -64,8 +66,10 @@ public class ReviewerPapers extends javax.swing.JFrame {
          try {
             // TODO add your handling code here:
             //refresh Tables
-            DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
+            DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();          
+            DefaultTableModel tbm2= (DefaultTableModel)jTable2.getModel();
             tbm1.setRowCount(0);
+            tbm2.setRowCount(0);
             ReviewerController RC= new ReviewerController();
             
             
@@ -74,6 +78,13 @@ public class ReviewerPapers extends javax.swing.JFrame {
             {
                 tbm1.addRow(al.get(i).GetPaper());
             }
+            
+            ArrayList<Reviews> al2 = RC.ReviewedPaperCon(ID);
+            for (int i=0; i< al2.size();i++)
+            {
+                tbm2.addRow(al2.get(i).GetReviewDATA2());
+            }
+                      
         } catch (SQLException ex) {
             Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,11 +106,15 @@ public class ReviewerPapers extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton4 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jToggleButton1 = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -112,6 +127,29 @@ public class ReviewerPapers extends javax.swing.JFrame {
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton1.setText("Edit work load");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Current prefered work load : ????");
+
+        jButton1.setText("Download Paper");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Submit / update / delete Review");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -148,21 +186,40 @@ public class ReviewerPapers extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(20);
         }
 
-        jToggleButton1.setText("Edit work load");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+        jTabbedPane1.addTab("Allocated Papers", jScrollPane1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Paper Name", "Author", "Co Author", "Rating"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(3);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(3);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(3);
+        }
 
-        jLabel1.setText("Current prefered work load : ????");
-
-        jButton1.setText("Download Paper");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jTabbedPane1.addTab("Reviewed Paper", jScrollPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,16 +228,18 @@ public class ReviewerPapers extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jToggleButton1)
                                 .addGap(98, 98, 98)
-                                .addComponent(jButton1))
+                                .addComponent(jButton1)
+                                .addGap(52, 52, 52)
+                                .addComponent(jButton2))
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -193,10 +252,11 @@ public class ReviewerPapers extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jToggleButton1)
-                            .addComponent(jButton1)))
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)))
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
         );
 
         pack();
@@ -287,6 +347,69 @@ public class ReviewerPapers extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            //submit / update
+            ReviewerController RC =new ReviewerController();
+            JComboBox PTBox =new JComboBox();
+            
+            JPanel myPanel = new JPanel();
+            
+            ArrayList<Papers> al = RC.ViewPaperCon(ID);
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetPName());
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select paper you want to submit Review or update", JOptionPane.OK_CANCEL_OPTION);
+            
+            if(n == JOptionPane.OK_OPTION){ //
+                    String PaperName = PTBox.getSelectedItem().toString();//getPaperName
+        
+                    JPanel myPanel1 = new JPanel();
+                    JComboBox PTBox1 =new JComboBox();
+                    JTextArea TA = new JTextArea(20,50);
+                    for (int i=0; i <6;i++)//1-5
+                    {
+                        PTBox1.addItem(i);
+                    }
+                    myPanel1.add(new JLabel("Rating(Choose 0 to delete): \n (1 for lowest rating, 5 for best rating)"));
+                    myPanel1.add(PTBox1);
+                    myPanel1.add(Box.createHorizontalStrut(15)); // a spacer
+                    myPanel1.add(new JLabel("Review:"));
+                    myPanel1.add(TA);
+                    myPanel1.add(Box.createHorizontalStrut(15));
+                    int x=JOptionPane.showConfirmDialog(null, myPanel1,"Enter your review", JOptionPane.OK_CANCEL_OPTION);
+                    String Review = TA.getText();//getPaperName
+                    String RatingString = PTBox1.getSelectedItem().toString();//getPaperName
+                    int Rating=Integer.parseInt(RatingString);
+                    
+                    if(Rating==0)//delete
+                    {
+                        RC.DeleteReviewCon(PaperName);
+                        TableRefresh();        
+                    }
+                    else if((Review.isEmpty()))
+                    {
+                        //error message pop up if empty
+                        JOptionPane.showMessageDialog(null,"Nothing entered in Review","ERROR",JOptionPane.ERROR_MESSAGE);
+                    }                
+                    else if(x == JOptionPane.OK_OPTION)
+                    { 
+                        RC.ReviewerSUBUPCON(PaperName,Review,Rating);
+                        TableRefresh();
+                     }                
+                } 
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ReviewerPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -322,10 +445,14 @@ public class ReviewerPapers extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,7 @@ package Gui;
 
 import ControllerClass.AuthorController;
 import ETC.Papers;
+import ETC.Reviews;
 import User.Author;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -55,14 +56,18 @@ public class AuthorPapers extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton4 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +75,41 @@ public class AuthorPapers extends javax.swing.JFrame {
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Submit new Paper");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Update paper");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Delete paper");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Search submited paper");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Download Paper");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -106,38 +146,44 @@ public class AuthorPapers extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(3);
         }
 
-        jButton1.setText("Submit new Paper");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jTabbedPane1.addTab("Submited papers", jScrollPane1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Paper Name", "Reviewer ", "Rating"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(5);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(100);
+        }
 
-        jButton2.setText("Update paper");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jTabbedPane1.addTab("Reviewed Papers", jScrollPane2);
 
-        jButton3.setText("Delete paper");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton7.setText("View Reviews");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("Search paper");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Download Paper");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -146,8 +192,14 @@ public class AuthorPapers extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -172,14 +224,16 @@ public class AuthorPapers extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
+                        .addGap(0, 52, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,6 +328,7 @@ public class AuthorPapers extends javax.swing.JFrame {
             JComboBox PTBox1 =new JComboBox();
             JComboBox PTBox =new JComboBox();
             JButton  j1=new JButton ("Choose file");
+            JLabel JL=new JLabel("No file chosen(optional):");
 
             JTextField UField = new JTextField(50);
             JPanel myPanel = new JPanel();
@@ -299,12 +354,12 @@ public class AuthorPapers extends javax.swing.JFrame {
             myPanel.add(new JLabel("Co Author:"));
             myPanel.add(PTBox);
              myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-            myPanel.add(new JLabel("File(optional):"));
+            myPanel.add(JL);
             myPanel.add(j1);
             
              JFileChooser fc = new JFileChooser();
             j1.addActionListener(e -> {
-              
+              JL.setText("File Chosen:");
                fc.showSaveDialog(null);
                
             });
@@ -404,6 +459,46 @@ public class AuthorPapers extends javax.swing.JFrame {
             Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        try {
+            // TODO add your handling code here:
+            //VIEW reviews
+            //drop down menu with choice then will show Review in a box
+            AuthorController AC= new AuthorController();
+            JComboBox PTBox =new JComboBox();   
+            JPanel myPanel = new JPanel();
+            ArrayList<Reviews> al = AC.ReviewedPaperCon(ID);
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetReviewPaperName());
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Reviewer's Review to view", JOptionPane.OK_CANCEL_OPTION);
+            
+            
+             if(n == JOptionPane.OK_OPTION){ // 
+                String PaperName = PTBox.getSelectedItem().toString();//getPaperName
+                for (int i=0; i< al.size();i++)
+                { 
+                    if(PaperName==al.get(i).GetReviewPaperName())
+                    {
+                        String Review=al.get(i).GetReview();
+                        JLabel JL1 = new JLabel();
+                        JL1.setText(Review);
+                        JOptionPane.showMessageDialog(null, JL1);
+                        break;
+                    }
+                }
+           }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AuthorPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }//GEN-LAST:event_jButton7ActionPerformed
      public void ClosePanel()
     {
         setVisible(false);
@@ -450,7 +545,9 @@ public class AuthorPapers extends javax.swing.JFrame {
             // TODO add your handling code here:
             //refresh Tables
             DefaultTableModel tbm1= (DefaultTableModel)jTable1.getModel();
+            DefaultTableModel tbm2= (DefaultTableModel)jTable2.getModel();
             tbm1.setRowCount(0);
+            tbm2.setRowCount(0);
             AuthorController AC= new AuthorController();
             
             
@@ -459,6 +556,15 @@ public class AuthorPapers extends javax.swing.JFrame {
             {
                 tbm1.addRow(al.get(i).GetPaper());
             }
+            
+            ArrayList<Reviews> al2 = AC.ReviewedPaperCon(ID);
+            for (int i=0; i< al2.size();i++)
+            {
+                tbm2.addRow(al2.get(i).GetReviewDATA());
+            }
+            
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(ViewUsers.class.getName()).log(Level.SEVERE, null, ex);
         }   
@@ -471,8 +577,12 @@ public class AuthorPapers extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

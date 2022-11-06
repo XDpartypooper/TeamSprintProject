@@ -165,6 +165,41 @@ public class ConChair extends UserProfile{
          mySmt.executeUpdate();
     }
     
+    public void UpdatePaperReviewStatusCon(String PaperName,String Reviewer) throws SQLException
+    {
+         java.sql.Connection conn=null;
+        ResultSet rs =null;
+        String paperID;
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt=conn.prepareStatement("Select * from papers where PaperName = ?");
+        mySmt.setString(1, PaperName);//Paper id
+        
+        rs = mySmt.executeQuery();
+
+         if(rs.next()) //find works
+         {                                
+            paperID = rs.getString(4);  //get PaperID   
+            mySmt=conn.prepareStatement("Select * from Reviews where paperID = ?");
+            mySmt.setString(1, paperID);//Paper id
+            rs = mySmt.executeQuery();
+                if(rs.next()) //exsist
+                {
+                    mySmt = conn.prepareStatement("update Reviews set ReviewerID=?,Review = null, Rating=0  where PaperID=?");
+                    mySmt.setString(1, GetUserID(Reviewer));//
+                    mySmt.setString(2, paperID);//g
+                    mySmt.executeUpdate();  
+                }
+                else//create new entry               
+                {
+                   mySmt = conn.prepareStatement("INSERT INTO Reviews (PaperID,ReviewerID,Review,Rating) VALUES (?,?,null,null)"); 
+                   mySmt.setString(1, paperID);//
+                   mySmt.setString(2, GetUserID(Reviewer));//get name from ID id
+                   mySmt.executeUpdate();
+                }    
+         }
+        conn.close();
+    }
+    
     
      public ArrayList getReviewers() throws SQLException
     {

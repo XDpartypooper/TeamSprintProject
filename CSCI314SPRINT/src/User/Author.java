@@ -4,6 +4,7 @@
 package User;
 
 import ETC.Papers;
+import ETC.Reviews;
 import Gui.AuthorMenu;
 import Gui.AuthorPapers;
 import java.io.File;
@@ -59,7 +60,32 @@ public class Author extends UserProfile{
     {
          new AuthorMenu(name,ID).setVisible(true);
     }
-    
+
+     public ArrayList ReviewedPaper(String ID) throws SQLException
+    {
+        //get all authors except self 
+         java.sql.Connection conn=null;
+        ResultSet rs =null;
+   
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating from papers inner join reviews on reviews.PaperID=papers.PaperID where AuthorID=? or co_AuthorID=?");  
+        mySmt.setString(1, ID);
+        mySmt.setString(2, ID);//author and co author can view reviewed paper
+        
+        rs = mySmt.executeQuery();
+        
+        ArrayList<Reviews> al = new ArrayList<Reviews>();
+        
+         while(rs.next()) //find works
+         {
+                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),rs.getString(3),rs.getInt(4));
+                //paper name, reviewer(id), review , Rating null =0
+                al.add(R);                      
+         }    
+  
+         conn.close();
+         return al;  
+    }
    
            
     
@@ -80,9 +106,9 @@ public class Author extends UserProfile{
         
          while(rs.next()) //find works
          {
-                Author P = new Author(rs.getString(1),rs.getString(5));
+                Author A = new Author(rs.getString(1),rs.getString(5));
                 //take the username+ID
-                al.add(P);                      
+                al.add(A);                      
          }    
   
          conn.close();
@@ -190,16 +216,19 @@ public class Author extends UserProfile{
  
         rs = mySmt.executeQuery();
         
-        ArrayList<Papers> al = new ArrayList<Papers>();
-        
          while(rs.next()) //find works
          { 
                
                 String PName = rs.getString(1);;
                 Blob  Blob   = rs.getBlob(6);
+                
+                if(Blob==null)
+                {
+                    JOptionPane.showMessageDialog(null,"NO FILE in DATABASE");
+                    throw new SQLException();
+                }
                 byte[] bdata = Blob.getBytes(1, (int) Blob.length());
                 String s = new String(bdata);
-                
                 
                 File file = new File("C:\\Users\\Public\\Downloads\\"+PName+".txt");
                 FileOutputStream fos = new FileOutputStream(file);

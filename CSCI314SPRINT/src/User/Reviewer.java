@@ -5,6 +5,7 @@ package User;
 
 import ETC.Bids;
 import ETC.Papers;
+import ETC.Reviews;
 import Gui.ReviewerMenu;
 import Gui.ReviewerPapers;
 import Gui.ReviewerBid;
@@ -89,10 +90,79 @@ public class Reviewer extends UserProfile{
             mySmt.setString(1, ID);//newPname  
             mySmt.setString(2, WL);//CoAuthorID    
             mySmt.executeUpdate();
+         }  
+        conn.close();
+    }
+    
+    public ArrayList ReviewedPaper(String ID) throws SQLException
+    {
+        //get all authors except self 
+         java.sql.Connection conn=null;
+        ResultSet rs =null;
+   
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, papers.AuthorID,papers.co_AuthorID,Reviews.Review,Reviews.Rating from papers inner join reviews on reviews.PaperID=papers.PaperID where ReviewerID=?");  
+        mySmt.setString(1, ID);//Reviewer ID
+        
+        rs = mySmt.executeQuery();
+        
+        ArrayList<Reviews> al = new ArrayList<Reviews>();
+        
+         while(rs.next()) //find works
+         {
+                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),rs.getInt(5));
+                //paper name,Author,co author, review , Rating null = pending
+                al.add(R);                      
+         }    
+  
+         conn.close();
+         return al;  
+    }
+    
+    
+    public void ReviewerSUBUP(String PaperName,String Review,int Rating) throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        String paperID;
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt=conn.prepareStatement("Select * from papers where PaperName = ?");
+        mySmt.setString(1, PaperName);//Paper id
+        
+        rs = mySmt.executeQuery();
+
+         if(rs.next()) //find works
+         {                                
+            paperID = rs.getString(4);  //get PaperID   
+            
+            mySmt = conn.prepareStatement("update Reviews set Review = ?, Rating=?  where PaperID=?"); 
+            mySmt.setString(1, Review);//
+            mySmt.setInt(2, Rating);//get name from ID id
+            mySmt.setString(3, paperID);//
+            mySmt.executeUpdate();      
          }
+        conn.close();
+    }
+    
+    public void DeleteReview(String PaperName) throws SQLException
+    {
+    java.sql.Connection conn=null;
+        ResultSet rs =null;
+        String paperID;
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt=conn.prepareStatement("Select * from papers where PaperName = ?");
+        mySmt.setString(1, PaperName);//Paper id
         
-        
-         
+        rs = mySmt.executeQuery();
+
+         if(rs.next()) //find works
+         {                                
+            paperID = rs.getString(4);  //get PaperID   
+            
+            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=0  where PaperID=?"); 
+            mySmt.setString(1, paperID);//
+            mySmt.executeUpdate();      
+         }    
         conn.close();
     }
     
@@ -189,6 +259,11 @@ public class Reviewer extends UserProfile{
                
                 String PName = rs.getString(1);;
                 Blob  Blob   = rs.getBlob(6);
+                    if(Blob==null)
+                    {
+                        JOptionPane.showMessageDialog(null,"NO FILE in DATABASE");
+                        throw new SQLException();
+                    }
                 byte[] bdata = Blob.getBytes(1, (int) Blob.length());
                 String s = new String(bdata);
                 

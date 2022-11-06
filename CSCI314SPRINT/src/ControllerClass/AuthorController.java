@@ -30,6 +30,14 @@ public class AuthorController {
             Logger.getLogger(AuthorController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public ArrayList ReviewedPaperCon(String ID) throws SQLException
+    {
+        ArrayList al=null;
+        Author A=new Author();
+        al=A.ReviewedPaper(ID);
+        return al;  
+    }
 
     
     
@@ -37,12 +45,9 @@ public class AuthorController {
     public ArrayList ViewPaperCon(String word,String ID) throws SQLException 
     {
         //returns papers depend on if word is empty
-        ArrayList al=null;
-               
+        ArrayList al=null;             
         Author A=new Author();
         al = A.ViewPapers(word,ID);
-        
-        //note to convert ID to name - or can also keep the same
         return al;  
         
     }

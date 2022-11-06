@@ -51,11 +51,7 @@ public class ConChairController {
         return al;         
     }
     
-    public void UpdateBidstatusCon(String PaperName,String Reviewer) throws SQLException
-    {
-        ConChair CC=new ConChair();
-         CC.UpdateBidstatus(PaperName,Reviewer);
-    }
+  
        
       public ArrayList getReviewersCon() throws SQLException
       {
@@ -65,12 +61,25 @@ public class ConChairController {
           return al; 
       }
       
+        public void UpdateBidstatusCon(String PaperName,String Reviewer) throws SQLException
+         {
+            ConChair CC=new ConChair();
+             CC.UpdateBidstatus(PaperName,Reviewer);
+          }
+    
+     public void  UpdatePaperReviewStatus(String PaperName,String Reviewer) throws SQLException
+      {
+            ConChair CC=new ConChair();
+             CC.UpdatePaperReviewStatusCon(PaperName,Reviewer);
+        }
+      
       public void UpdatePaperCon(String PaperName,String Reviewer)
       {
         ConChair CC=new ConChair();  
            try {
                CC.UpdatePaper(PaperName,Reviewer);
                UpdateBidstatusCon(PaperName,Reviewer);
+               UpdatePaperReviewStatus(PaperName,Reviewer);
            } catch (SQLException ex) {
                Logger.getLogger(ConChairController.class.getName()).log(Level.SEVERE, null, ex);
            }

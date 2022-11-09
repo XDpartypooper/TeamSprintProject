@@ -52,6 +52,7 @@ CREATE TABLE Reviews  (
     ReviewerID   		 		VARCHAR(4)		, 
 	Review						VARCHAR(500)	,
 	Rating						int				, -- null means pending or deleted currently
+    Review_status				int				,
 CONSTRAINT Reviews_PKEY PRIMARY KEY (PaperID)
 );
 
@@ -61,7 +62,7 @@ CONSTRAINT Reviews_PKEY PRIMARY KEY (PaperID)
 INSERT INTO usertype VALUES ('System Admin','1');
 INSERT INTO usertype VALUES ('Author','2');
 INSERT INTO usertype VALUES ('Conference Chair','3');
-INSERT INTO usertype VALUES ('Reviewer','4');
+INSERT INTO usertype VALUES ('Reviwer','4');
 
 -- insert dummy data for the 4 profiles
 INSERT INTO Users VALUES ('Roy','Password1','Bruh1@uow.com','System Admin','001');
@@ -83,19 +84,15 @@ INSERT INTO papers VALUES ('101 reasons why CSCI251 is horrible','005',null,'4',
 
 
 
-
 -- etc stuff 
 create database sprint;-- to create the db use when there is not sprint db
 
 select * from users; -- view table users
 select * from usertype; 
-select * from papers; 
+select * from papers ; 
 select * from Reviewer; 
 select * from Reviews; 
 select * from Bids; 
 
 -- testing stuff below
-
-
-
 

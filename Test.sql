@@ -61,7 +61,7 @@ CONSTRAINT Reviews_PKEY PRIMARY KEY (PaperID)
 INSERT INTO usertype VALUES ('System Admin','1');
 INSERT INTO usertype VALUES ('Author','2');
 INSERT INTO usertype VALUES ('Conference Chair','3');
-INSERT INTO usertype VALUES ('Reviwer','4');
+INSERT INTO usertype VALUES ('Reviewer','4');
 
 -- insert dummy data for the 4 profiles
 INSERT INTO Users VALUES ('Roy','Password1','Bruh1@uow.com','System Admin','001');

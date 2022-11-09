@@ -51,6 +51,12 @@ public class ConChairController {
         return al;         
     }
     
+    public void AutoAllocationCon() throws SQLException
+    {
+        ConChair CC=new ConChair();
+        CC.AutoAllocation();
+    }
+    
   
        
       public ArrayList getReviewersCon() throws SQLException

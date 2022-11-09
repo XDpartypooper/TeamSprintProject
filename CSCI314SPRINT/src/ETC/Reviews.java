@@ -67,20 +67,26 @@ public class Reviews {
     {
          switch(Rating)
                 {
+                    case -3:
+                        Rating_word="-3 (strong reject)";
+                    break;
+                    case -2:
+                        Rating_word="-2 (reject)";
+                    break;
+                    case -1:
+                        Rating_word="-1 (weak reject)";
+                    break;
+                    case 0:
+                        Rating_word="0 (borderline paper)";
+                    break;
                     case 1:
-                        Rating_word="Quite bad bruh";
-                    break;
+                        Rating_word="1 (weak accept)";
+                    break; 
                     case 2:
-                        Rating_word="somewhat bad bruh";
-                    break;
+                        Rating_word="2 (Accept)";
+                    break; 
                     case 3:
-                        Rating_word="mediocore";
-                    break;
-                    case 4:
-                        Rating_word="pretty good";
-                    break;
-                    case 5:
-                        Rating_word="Very good";
+                        Rating_word="3 (strong accept)";
                     break; 
                     default:
                          Rating_word="Pending";

@@ -372,11 +372,12 @@ public class ReviewerPapers extends javax.swing.JFrame {
                     JPanel myPanel1 = new JPanel();
                     JComboBox PTBox1 =new JComboBox();
                     JTextArea TA = new JTextArea(20,50);
-                    for (int i=0; i <6;i++)//1-5
+                    PTBox1.addItem("");
+                    for (int i=-3; i <4;i++)//1-5
                     {
                         PTBox1.addItem(i);
                     }
-                    myPanel1.add(new JLabel("Rating(Choose 0 to delete): \n (1 for lowest rating, 5 for best rating)"));
+                    myPanel1.add(new JLabel("Rating(choose null to delete): \n (-3 for lowest rating, 3 for best rating)"));
                     myPanel1.add(PTBox1);
                     myPanel1.add(Box.createHorizontalStrut(15)); // a spacer
                     myPanel1.add(new JLabel("Review:"));
@@ -385,9 +386,9 @@ public class ReviewerPapers extends javax.swing.JFrame {
                     int x=JOptionPane.showConfirmDialog(null, myPanel1,"Enter your review", JOptionPane.OK_CANCEL_OPTION);
                     String Review = TA.getText();//getPaperName
                     String RatingString = PTBox1.getSelectedItem().toString();//getPaperName
-                    int Rating=Integer.parseInt(RatingString);
+                   
                     
-                    if(Rating==0)//delete
+                    if(RatingString.isEmpty())//delete
                     {
                         RC.DeleteReviewCon(PaperName);
                         TableRefresh();        
@@ -399,6 +400,7 @@ public class ReviewerPapers extends javax.swing.JFrame {
                     }                
                     else if(x == JOptionPane.OK_OPTION)
                     { 
+                        int Rating=Integer.parseInt(RatingString);
                         RC.ReviewerSUBUPCON(PaperName,Review,Rating);
                         TableRefresh();
                      }                

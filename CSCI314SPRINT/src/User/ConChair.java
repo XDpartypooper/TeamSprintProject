@@ -3,6 +3,7 @@
  */
 package User;
 
+import ControllerClass.ConChairController;
 import ETC.Bids;
 import ETC.Papers;
 import Gui.ConChairMenu;
@@ -12,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -102,7 +104,7 @@ public class ConChair extends UserProfile{
         if(Search=="R")
         {
             conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-            mySmt = conn.prepareStatement("SELECT papers.PaperName,papers.AuthorID,papers.co_AuthorID,papers.PaperID,papers.ALReviewerID FROM papers inner join users on users.ID =papers.ALReviewerID WHERE users.UserName like ? order by PaperID asc");  
+            mySmt = conn.prepareStatement("SELECT papers.PaperName,papers.AuthorID,papers.co_AuthorID,papers.PaperID,papers.ALReviewerID,papers.SubmitedDate FROM papers inner join users on users.ID =papers.ALReviewerID WHERE users.UserName like ? order by PaperID asc");  
             mySmt.setString(1,'%'+word+'%');//User entered   
         }
         
@@ -113,9 +115,17 @@ public class ConChair extends UserProfile{
         
          while(rs.next()) //find works
          {
-                Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)),rs.getString(7));
-                //paper name, paper id , author ID , co author name , reviewer ID,date
-                al.add(P);                       
+                if(Search=="R")
+                {
+                    Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)),rs.getString(6));
+                    //paper name, paper id , author ID , co author name , reviewer ID,date
+                    al.add(P);                       
+                }
+                else
+                {
+                    Papers P = new Papers(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),GetNameDB(rs.getString(5)),rs.getString(7));
+                    al.add(P); 
+                }
          }
          conn.close();
         return al;
@@ -206,7 +216,7 @@ public class ConChair extends UserProfile{
         //get all authors except
          java.sql.Connection conn=null;
         ResultSet rs =null;
-   
+          ResultSet rs1 =null;
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
         PreparedStatement mySmt = conn.prepareStatement("select * from users where ProfileType='Reviewer'");  
  
@@ -215,9 +225,26 @@ public class ConChair extends UserProfile{
         ArrayList<Reviewer> al = new ArrayList<Reviewer>();
         
          while(rs.next()) //find works
-         {
-                Reviewer P = new Reviewer(rs.getString(1),rs.getString(5));
-                //take the username+ID
+         {     
+                String name=rs.getString(1);
+                String ID=rs.getString(5);
+                String WL;
+                
+                PreparedStatement mySmt1 = conn.prepareStatement("select * from Reviewer where ReviewerID = ?");  
+                mySmt1.setString(1, ID);//Paper id
+                
+                rs1 = mySmt1.executeQuery();
+                    if(rs1.next()) //
+                    {
+                        WL=rs1.getString(2);                  
+                    }
+                    else
+                    {
+                        WL=null;
+                    }
+
+                Reviewer P = new Reviewer(name,ID,WL);
+                //take the username ,  ID  , workload
                 al.add(P);                      
          }    
   
@@ -225,7 +252,88 @@ public class ConChair extends UserProfile{
          return al;  
     }
      
+    public void AutoAllocation() throws SQLException
+    {
+        java.sql.Connection conn=null;
+        ResultSet rs =null;
+        ResultSet rs1 =null;
+        String ReviewerName;
+        String PaperName=null;
+        PreparedStatement mySmt1; 
+        int ReviewerCount=0;
+        int PaperCount=0;
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select count(*) from users where ProfileType='Reviewer'");       
+        rs = mySmt.executeQuery();
+        
+          if(rs.next()) //
+          {
+             ReviewerCount=rs.getInt(1);//get num of reviewer
+          }  
 
+        mySmt = conn.prepareStatement("select count(*) from papers where ALReviewerID is null");       
+        rs = mySmt.executeQuery();
+        
+          if(rs.next()) //
+          {
+             PaperCount=rs.getInt(1);//get num of papers left to allocate
+          }  
+          
+          double avg=(double)PaperCount/(double)ReviewerCount;
+          
+          ConChairController CCC= new ConChairController();
+         
+          if(avg<1)// allocate 1:1 till finished
+          {
+             mySmt = conn.prepareStatement("select * from users where ProfileType='Reviewer'");
+             rs = mySmt.executeQuery();
+             while(rs.next())//for each reviewer
+             {
+                 
+                ReviewerName=rs.getString(1);//get the reviewer ID
+                 
+                    mySmt1 = conn.prepareStatement("  select * from papers where ALReviewerID is null");
+                    rs1 = mySmt1.executeQuery();//do papers query
+
+                     if(rs1.next()) // allocate paper
+                     {
+                         PaperName=rs1.getString(1);//get papers ID
+                     }  
+
+                     CCC.UpdatePaperCon( PaperName, ReviewerName);                                        
+             }
+          }
+          else // allocate avg
+          {
+             avg=Math.floor(avg);
+             mySmt = conn.prepareStatement("select * from users where ProfileType='Reviewer'");
+             rs = mySmt.executeQuery();
+             while(rs.next())//for each reviewer
+             {
+                 
+                ReviewerName=rs.getString(1);//get the reviewer ID
+                
+                for(int i=0;i<avg;i++)//do allocate based on avg
+                {
+                    mySmt1 = conn.prepareStatement("  select * from papers where ALReviewerID is null");
+                    rs1 = mySmt1.executeQuery();//do papers query
+
+                     if(rs1.next()) // allocate paper
+                     {
+                         PaperName=rs1.getString(1);//get papers ID
+                     }  
+
+                     CCC.UpdatePaperCon( PaperName, ReviewerName);                         
+                }
+             }
+             
+          }
+          
+        JOptionPane.showMessageDialog(null,"Successfully Allocated Papers Automaticlly");   
+        conn.close();   
+    }
+    
+  
     public void GotoCCMenu(String name,String ID)
     {
         new ConChairMenu(name,ID).setVisible(true);

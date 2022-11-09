@@ -25,15 +25,22 @@ import javax.swing.JOptionPane;
  * @author XDpartypooper
  */
 public class Reviewer extends UserProfile{
+    String WL;
     
     public Reviewer()
     {
     }
-    
     public Reviewer(String name,String ID)
     {
         UserName=name;
         this.ID=ID;
+    }
+    
+    public Reviewer(String name,String ID,String WL)
+    {
+        UserName=name;
+        this.ID=ID;
+        this.WL=WL;
     }
     
     public String GetName()
@@ -41,6 +48,11 @@ public class Reviewer extends UserProfile{
         return UserName;
     }
     
+     public String[] GetReviewerData()
+    {
+        String file[]={UserName,ID,WL};
+        return file;
+    }
     
     public String WorkLoadGet(String ID) throws SQLException
     {
@@ -159,7 +171,7 @@ public class Reviewer extends UserProfile{
          {                                
             paperID = rs.getString(4);  //get PaperID   
             
-            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=0  where PaperID=?"); 
+            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=10  where PaperID=?"); 
             mySmt.setString(1, paperID);//
             mySmt.executeUpdate();      
          }    
@@ -290,30 +302,36 @@ public class Reviewer extends UserProfile{
      {
         java.sql.Connection conn=null;
         ResultSet rs =null;
-
+        String paperID=null;
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("Select * from papers where PaperName = ? ");  
-        mySmt.setString(1, paperName);//reviewer id
+        PreparedStatement mySmt ;
+        
+         mySmt= conn.prepareStatement("Select * from papers where PaperName = ? ");  
+         mySmt.setString(1, paperName);//reviewer id
          rs = mySmt.executeQuery();
          if(rs.next()) //find works
          {                                
-            paperName = rs.getString(4);  //get PaperID             
+            paperID = rs.getString(4);  //get PaperID             
          }
          
         mySmt = conn.prepareStatement("Select * from Bids where PaperID = ? and BidderID =?");
-        mySmt.setString(1, paperName);//reviewer id
+        mySmt.setString(1, paperID);//Paper id
         mySmt.setString(2, ID);//reviewer id
-         if(rs.next()) //find works
-         {                                
+        rs = mySmt.executeQuery();
+        
+        if(rs.next()) //find works
+        {                                
             JOptionPane.showMessageDialog(null,"You cannot place more then 1 bid on a paper");  
-            throw new SQLException();
-         }
-       
-         mySmt = conn.prepareStatement("INSERT INTO Bids (PaperID,BidderID,Bid_status) VALUES (?, ?, 0);");          
-         mySmt.setString(1, paperName);//newPname  
-         mySmt.setString(2, ID);//CoAuthorID    
-         mySmt.executeUpdate();   
-         JOptionPane.showMessageDialog(null,"Successfully Bid paper");
+        }
+        else
+        {          
+            mySmt = conn.prepareStatement("INSERT INTO Bids (PaperID,BidderID,Bid_status) VALUES (?, ?, 0);");          
+            mySmt.setString(1, paperID);//newPname  
+            mySmt.setString(2, ID);//CoAuthorID    
+            mySmt.executeUpdate();   
+            JOptionPane.showMessageDialog(null,"Successfully Bid paper");
+        }      
+        conn.close();
      }
      
       public void DeleteBidPaper(String paperName,String ID) throws SQLException

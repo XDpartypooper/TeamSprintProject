@@ -10,12 +10,14 @@ import ETC.Bids;
 import ETC.Papers;
 import User.ConChair;
 import User.Reviewer;
+import User.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -51,7 +53,6 @@ public class ConChairPapers extends javax.swing.JFrame {
 
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -62,9 +63,12 @@ public class ConChairPapers extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,8 +85,6 @@ public class ConChairPapers extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("not implimeted");
 
         jButton2.setText("Manual Allocate");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +188,7 @@ public class ConChairPapers extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable3.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jTable3);
         if (jTable3.getColumnModel().getColumnCount() > 0) {
             jTable3.getColumnModel().getColumn(0).setResizable(false);
@@ -223,6 +226,7 @@ public class ConChairPapers extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable4.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jTable4);
         if (jTable4.getColumnModel().getColumnCount() > 0) {
             jTable4.getColumnModel().getColumn(0).setResizable(false);
@@ -233,6 +237,35 @@ public class ConChairPapers extends javax.swing.JFrame {
         }
 
         jTabbedPane1.addTab("Bids", jScrollPane4);
+
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Reviewer's Name", "Reviewer ID", "Work load"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable5.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(jTable5);
+        if (jTable5.getColumnModel().getColumnCount() > 0) {
+            jTable5.getColumnModel().getColumn(0).setResizable(false);
+            jTable5.getColumnModel().getColumn(1).setResizable(false);
+            jTable5.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jTabbedPane1.addTab("Reviewers", jScrollPane5);
 
         jButton3.setText("Search Paper");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -248,42 +281,52 @@ public class ConChairPapers extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton1.setText("Update / Delete Allocation");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addComponent(jTabbedPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3)
+                    .addComponent(jButton5))
+                .addGap(18, 18, 18)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(jTabbedPane1)
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jToggleButton1)
+                            .addComponent(jButton5)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -342,8 +385,23 @@ public class ConChairPapers extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        //Auto allocation
+        try {
+            // TODO add your handling code here:
+            //Auto allocation
+            
+        JFrame C=new JFrame();
+        int a=JOptionPane.showConfirmDialog(C,"Are you sure you want to Auto allocate?");
+        
+            if(a==JOptionPane.YES_OPTION){
+                ConChairController CCC= new ConChairController();
+                CCC.AutoAllocationCon();
+                refreshSearch("");
+
+            }
+ 
+        } catch (SQLException ex) {
+            Logger.getLogger(ConChairPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -367,6 +425,56 @@ public class ConChairPapers extends javax.swing.JFrame {
         word = null;
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            //update / delete allocation
+            ConChairController CCC = new ConChairController();
+           
+            JPanel myPanel = new JPanel();
+            
+            JComboBox PTBox =new JComboBox();
+            JComboBox PTBox1 =new JComboBox();
+            
+            
+            ArrayList<Papers> al = CCC.ViewPaperCon(2,null,null);// view papers with reivewers
+            PTBox.addItem("Null");//name of paper
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetPName());//name of paper
+            }
+            
+            ArrayList<Reviewer> al2 = CCC.getReviewersCon();//get the user name of AUTHORS
+            for (int i=0; i< al2.size();i++)
+            {
+                PTBox1.addItem(al2.get(i).GetName());//get name of author
+            }
+            
+            
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            myPanel.add(new JLabel("Reviewer(null to remove Allocation):"));
+            myPanel.add(PTBox1);
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select which Paper you want to update", JOptionPane.OK_CANCEL_OPTION);
+            
+             String PaperName = PTBox.getSelectedItem().toString();//getPaperName    
+             String Reviewer = PTBox1.getSelectedItem().toString();//getPaperName
+            
+             if("null".equals(Reviewer))
+             {
+                 Reviewer=null;
+             }
+             
+             if(n==JOptionPane.YES_OPTION){
+             CCC.UpdatePaperCon( PaperName, Reviewer);
+             }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ConChairPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
     public void ClosePanel()
     {
         setVisible(false);
@@ -383,6 +491,7 @@ public class ConChairPapers extends javax.swing.JFrame {
             DefaultTableModel tbm2= (DefaultTableModel)jTable2.getModel();
             DefaultTableModel tbm3= (DefaultTableModel)jTable3.getModel();
             DefaultTableModel tbm4= (DefaultTableModel)jTable4.getModel();
+            DefaultTableModel tbm5= (DefaultTableModel)jTable5.getModel();
             ConChairController CCC= new ConChairController();
             
             if (word==null || word.isEmpty())
@@ -391,6 +500,7 @@ public class ConChairPapers extends javax.swing.JFrame {
                     tbm2.setRowCount(0);
                     tbm3.setRowCount(0);
                     tbm4.setRowCount(0);
+                    tbm5.setRowCount(0);
                ArrayList<Papers> al1 = CCC.ViewPaperCon(1,word,Search);
                 for (int i=0; i< al1.size();i++)
                 {
@@ -414,16 +524,22 @@ public class ConChairPapers extends javax.swing.JFrame {
                 {
                    tbm4.addRow(al4.get(i).GetCCBid());
                 }
+                
+                ArrayList<Reviewer> al5 = CCC.getReviewersCon();//get the user name of AUTHORS
+                for (int i=0; i< al5.size();i++)
+                {
+                   tbm5.addRow(al5.get(i).GetReviewerData());
+                }
+                
             }
             else
             {
-               ArrayList<Papers> al4 = CCC.ViewPaperCon(4,word,Search);
+                tbm1.setRowCount(0);
+                tbm2.setRowCount(0);
+                tbm3.setRowCount(0);
+               ArrayList<Papers> al4 = CCC.ViewPaperCon(4,word,Search); //papers,reviewer search for papers
                 for (int i=0; i< al4.size();i++)
-                {
-                    tbm1.setRowCount(0);
-                    tbm2.setRowCount(0);
-                    tbm3.setRowCount(0);
-                    
+                {                    
                     tbm1.addRow(al4.get(i).GetPaper());
                     tbm2.addRow(al4.get(i).GetPaper());
                     tbm3.addRow(al4.get(i).GetPaper());
@@ -475,16 +591,18 @@ public class ConChairPapers extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

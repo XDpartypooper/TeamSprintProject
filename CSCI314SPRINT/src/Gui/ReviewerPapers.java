@@ -50,13 +50,13 @@ public class ReviewerPapers extends javax.swing.JFrame {
         ReviewerController RC= new ReviewerController();
         String WL = RC.WorkLoadGetCon(ID);
         
-        if(WL==null || WL=="" || WL=="0")
+        if(WL!=null || WL=="" || WL=="0")
         {
-             jLabel1.setText("No current prefered work load");
+            jLabel1.setText("Current prefered work load : "+WL+" papers");            
         }
         else
         {
-            jLabel1.setText("Current prefered work load : "+WL+" papers");
+             jLabel1.setText("No current prefered work load");   
         }
     }
     
@@ -190,17 +190,17 @@ public class ReviewerPapers extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Paper Name", "Author", "Co Author", "Rating"
+                "Paper Name", "Author", "Co Author", "Rating", "Review status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -217,6 +217,7 @@ public class ReviewerPapers extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(2).setPreferredWidth(3);
             jTable2.getColumnModel().getColumn(3).setResizable(false);
             jTable2.getColumnModel().getColumn(3).setPreferredWidth(3);
+            jTable2.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jTabbedPane1.addTab("Reviewed Paper", jScrollPane2);

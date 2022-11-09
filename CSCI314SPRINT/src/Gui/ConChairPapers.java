@@ -5,9 +5,13 @@
  */
 package Gui;
 
+import ControllerClass.AuthorController;
 import ControllerClass.ConChairController;
 import ETC.Bids;
 import ETC.Papers;
+import ETC.Reviews;
+import static Gui.AuthorPapers.ID;
+import static Gui.ReviewerPapers.ID;
 import User.ConChair;
 import User.Reviewer;
 import User.User;
@@ -65,10 +69,13 @@ public class ConChairPapers extends javax.swing.JFrame {
         jTable4 = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable6 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -267,6 +274,34 @@ public class ConChairPapers extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Reviewers", jScrollPane5);
 
+        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Paper Name", "Reviewer", "Review status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTable6);
+        if (jTable6.getColumnModel().getColumnCount() > 0) {
+            jTable6.getColumnModel().getColumn(0).setResizable(false);
+            jTable6.getColumnModel().getColumn(1).setResizable(false);
+            jTable6.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jTabbedPane1.addTab("Reviews", jScrollPane6);
+
         jButton3.setText("Search Paper");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,10 +316,17 @@ public class ConChairPapers extends javax.swing.JFrame {
             }
         });
 
-        jToggleButton1.setText("Update / Delete Allocation");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton6.setText("Accept / Reject Reviews");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Update / Delete Allocation");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -297,10 +339,12 @@ public class ConChairPapers extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jToggleButton1)
+                .addComponent(jButton7)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,14 +363,16 @@ public class ConChairPapers extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
-                            .addComponent(jToggleButton1)
                             .addComponent(jButton5)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(jButton2)
+                            .addComponent(jButton7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton6))))
+                .addGap(15, 15, 15)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -425,8 +471,10 @@ public class ConChairPapers extends javax.swing.JFrame {
         word = null;
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        try {
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        //update / delete
+         try {
             // TODO add your handling code here:
             //update / delete allocation
             ConChairController CCC = new ConChairController();
@@ -476,7 +524,77 @@ public class ConChairPapers extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ConChairPapers.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            // TODO add your handling code here:
+            // view and accept or reject reviews
+            ConChairController CCC= new ConChairController();
+            JComboBox PTBox =new JComboBox();   
+            JPanel myPanel = new JPanel();
+            ArrayList<Reviews> al = CCC.ReviewedPendingPaperCon();
+            for (int i=0; i< al.size();i++)
+            {
+                PTBox.addItem(al.get(i).GetReviewPaperName());
+            }
+            myPanel.add(new JLabel("Paper Name:"));
+            myPanel.add(PTBox);
+            myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Reviewer's Review to view", JOptionPane.OK_CANCEL_OPTION);
+            
+            
+            if(n == JOptionPane.OK_OPTION){ // 
+                String PaperName = PTBox.getSelectedItem().toString();//getPaperName
+                for (int i=0; i< al.size();i++)
+                { 
+                    if(PaperName==al.get(i).GetReviewPaperName())
+                    {
+                        String Review=al.get(i).GetReview();
+                        int Rating=al.get(i).GetRating();
+
+                        JPanel myPanel1 = new JPanel();
+                        JComboBox PTBox1 =new JComboBox();
+                        PTBox1.addItem("Accept");
+                        PTBox1.addItem("Reject");
+                        
+                        myPanel1.add(new JLabel("Rating:"+Rating));
+                        myPanel1.add(Box.createHorizontalStrut(15)); // a spacer
+                        myPanel1.add(new JLabel("Review:"+Review));
+                        myPanel1.add(Box.createHorizontalStrut(15)); // a spacer
+                        myPanel1.add(new JLabel("Review Status:"));
+                        myPanel1.add(PTBox1);
+                        myPanel1.add(Box.createHorizontalStrut(15)); // a spacer
+                        int a=JOptionPane.showConfirmDialog(null, myPanel1,"Accept or reject review", JOptionPane.OK_CANCEL_OPTION);
+                        
+                        
+                         if(a == JOptionPane.OK_OPTION){ 
+                               String Review_status = PTBox1.getSelectedItem().toString();//getPaperName 
+                               int review_s=0;
+                               
+                              if("Accept".equals(Review_status))
+                              {
+                                  review_s=1;//accept
+                              }
+                              else if("Reject".equals(Review_status))
+                              {
+                                 review_s=2; //reject
+                              }
+                               
+                                
+                               
+                               CCC.UpdatePaperStatusCon(PaperName,review_s);
+                               
+                         }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConChairPapers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     public void ClosePanel()
     {
@@ -495,6 +613,7 @@ public class ConChairPapers extends javax.swing.JFrame {
             DefaultTableModel tbm3= (DefaultTableModel)jTable3.getModel();
             DefaultTableModel tbm4= (DefaultTableModel)jTable4.getModel();
             DefaultTableModel tbm5= (DefaultTableModel)jTable5.getModel();
+            DefaultTableModel tbm6= (DefaultTableModel)jTable6.getModel();
             ConChairController CCC= new ConChairController();
             
             if (word==null || word.isEmpty())
@@ -504,6 +623,7 @@ public class ConChairPapers extends javax.swing.JFrame {
                     tbm3.setRowCount(0);
                     tbm4.setRowCount(0);
                     tbm5.setRowCount(0);
+                    tbm6.setRowCount(0);
                ArrayList<Papers> al1 = CCC.ViewPaperCon(1,word,Search);
                 for (int i=0; i< al1.size();i++)
                 {
@@ -533,6 +653,13 @@ public class ConChairPapers extends javax.swing.JFrame {
                 {
                    tbm5.addRow(al5.get(i).GetReviewerData());
                 }
+                
+                ArrayList<Reviews> al6 = CCC.ReviewedPaperCon();
+                for (int i=0; i< al6.size();i++)
+                {
+                    tbm6.addRow(al6.get(i).GetReviewDATA3());
+                }
+                
                 
             }
             else
@@ -594,18 +721,21 @@ public class ConChairPapers extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    private javax.swing.JTable jTable6;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

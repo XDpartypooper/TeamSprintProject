@@ -6,6 +6,7 @@ package User;
 import ControllerClass.ConChairController;
 import ETC.Bids;
 import ETC.Papers;
+import ETC.Reviews;
 import Gui.ConChairMenu;
 import Gui.ConChairPapers;
 import java.sql.DriverManager;
@@ -21,7 +22,83 @@ import javax.swing.JOptionPane;
  */
 public class ConChair extends UserProfile{
     
+    public void UpdatePaperStatus(String PaperName,int review_s) throws SQLException
+    {
+            java.sql.Connection conn=null;
+            PreparedStatement mySmt;
+            ResultSet rs =null;
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+            mySmt = conn.prepareStatement("select * from papers where PaperName=?"); 
+            mySmt.setString(1, PaperName);//status  
+            rs = mySmt.executeQuery();
+            
+            if(rs.next()) //get the paper ID
+            {
+                PaperName=rs.getString(4);
+            }
+            
+            
+            mySmt = conn.prepareStatement("update Reviews set Review_status=? where PaperID=?");    
+            mySmt.setInt(1, review_s);//status  
+            mySmt.setString(2, PaperName);//paper name
+ 
+            mySmt.executeUpdate();
+            //update values
+            
+           conn.close();
+    }
+    
+    
+  public ArrayList ReviewedPaper() throws SQLException
+    {
+        //get all authors except self 
+         java.sql.Connection conn=null;
+        ResultSet rs =null;
+   
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating,Reviews.Review_status from papers inner join reviews on reviews.PaperID=papers.PaperID  ");  
+
+        rs = mySmt.executeQuery();
+        
+        ArrayList<Reviews> al = new ArrayList<Reviews>();
+        
+         while(rs.next()) //find works
+         {
+                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),rs.getString(3),rs.getInt(4),rs.getInt(5));
+                //paper name, reviewer(id), review , Rating null =0 ,
+                al.add(R);                      
+         }    
   
+         conn.close();
+         return al;  
+    }
+  
+  public ArrayList ReviewedPendingPaper() throws SQLException
+    {
+        //get all authors except self 
+         java.sql.Connection conn=null;
+        ResultSet rs =null;
+   
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating,Reviews.Review_status from papers inner join reviews on reviews.PaperID=papers.PaperID where Review_status=0 ");  
+
+        rs = mySmt.executeQuery();
+        
+        ArrayList<Reviews> al = new ArrayList<Reviews>();
+        
+         while(rs.next()) //find works
+         {
+                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),rs.getString(3),rs.getInt(4),rs.getInt(5));
+                //paper name, reviewer(id), review , Rating null =0 ,
+                al.add(R);                      
+         }    
+  
+         conn.close();
+         return al;  
+    }
+    
+    
+    
     public ArrayList ViewPapers(int choice) throws SQLException
     {
         // allocated papers
@@ -81,11 +158,6 @@ public class ConChair extends UserProfile{
          conn.close();
         return al;
     }
-    
-    
- 
-      
-    
     
     public ArrayList ViewSearchPapers(String word,String Search) throws SQLException
     {
@@ -194,14 +266,14 @@ public class ConChair extends UserProfile{
             rs = mySmt.executeQuery();
                 if(rs.next()) //exsist
                 {
-                    mySmt = conn.prepareStatement("update Reviews set ReviewerID=?,Review = null, Rating=0  where PaperID=?");
+                    mySmt = conn.prepareStatement("update Reviews set ReviewerID=?,Review = null, Rating=10,Review_status=0  where PaperID=?");
                     mySmt.setString(1, GetUserID(Reviewer));//
                     mySmt.setString(2, paperID);//g
                     mySmt.executeUpdate();  
                 }
                 else//create new entry               
                 {
-                   mySmt = conn.prepareStatement("INSERT INTO Reviews (PaperID,ReviewerID,Review,Rating) VALUES (?,?,null,null)"); 
+                   mySmt = conn.prepareStatement("INSERT INTO Reviews (PaperID,ReviewerID,Review,Rating,Review_status) VALUES (?,?,null,null,0)"); 
                    mySmt.setString(1, paperID);//
                    mySmt.setString(2, GetUserID(Reviewer));//get name from ID id
                    mySmt.executeUpdate();

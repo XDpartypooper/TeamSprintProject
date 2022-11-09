@@ -113,7 +113,7 @@ public class Reviewer extends UserProfile{
         ResultSet rs =null;
    
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, papers.AuthorID,papers.co_AuthorID,Reviews.Review,Reviews.Rating from papers inner join reviews on reviews.PaperID=papers.PaperID where ReviewerID=?");  
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, papers.AuthorID,papers.co_AuthorID,Reviews.Review,Reviews.Rating,Reviews.Review_status from papers inner join reviews on reviews.PaperID=papers.PaperID where ReviewerID=?");  
         mySmt.setString(1, ID);//Reviewer ID
         
         rs = mySmt.executeQuery();
@@ -122,7 +122,7 @@ public class Reviewer extends UserProfile{
         
          while(rs.next()) //find works
          {
-                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),rs.getInt(5));
+                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),GetNameDB(rs.getString(3)),rs.getString(4),rs.getInt(5),rs.getInt(6));
                 //paper name,Author,co author, review , Rating null = pending
                 al.add(R);                      
          }    
@@ -147,7 +147,7 @@ public class Reviewer extends UserProfile{
          {                                
             paperID = rs.getString(4);  //get PaperID   
             
-            mySmt = conn.prepareStatement("update Reviews set Review = ?, Rating=?  where PaperID=?"); 
+            mySmt = conn.prepareStatement("update Reviews set Review = ?, Rating=? ,Review_status=0  where PaperID=?"); 
             mySmt.setString(1, Review);//
             mySmt.setInt(2, Rating);//get name from ID id
             mySmt.setString(3, paperID);//
@@ -171,7 +171,7 @@ public class Reviewer extends UserProfile{
          {                                
             paperID = rs.getString(4);  //get PaperID   
             
-            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=10  where PaperID=?"); 
+            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=10 , Review_status=0  where PaperID=?"); 
             mySmt.setString(1, paperID);//
             mySmt.executeUpdate();      
          }    

@@ -16,6 +16,23 @@ import java.util.logging.Logger;
 public class ConChairController {
    
     
+     public ArrayList ReviewedPaperCon() throws SQLException
+    {
+        ArrayList al=null;
+        ConChair CC=new ConChair();
+        al=CC.ReviewedPaper();
+        return al;  
+    }
+       public ArrayList ReviewedPendingPaperCon() throws SQLException
+    {
+        ArrayList al=null;
+        ConChair CC=new ConChair();
+        al=CC.ReviewedPendingPaper();
+        return al;  
+    }
+     
+    
+    
        public ArrayList ViewPaperCon(int Choice,String word,String Search) throws SQLException 
     {
         //papers based on int CHOICE
@@ -78,6 +95,13 @@ public class ConChairController {
             ConChair CC=new ConChair();
              CC.UpdatePaperReviewStatusCon(PaperName,Reviewer);
         }
+     
+     public void UpdatePaperStatusCon(String PaperName,int review_s) throws SQLException
+     {
+         ConChair CC=new ConChair();
+        CC.UpdatePaperStatus(PaperName,review_s);
+     }
+     
       
       public void UpdatePaperCon(String PaperName,String Reviewer)
       {

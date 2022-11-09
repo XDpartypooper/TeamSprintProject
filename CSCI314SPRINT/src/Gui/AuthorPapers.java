@@ -150,17 +150,17 @@ public class AuthorPapers extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Paper Name", "Reviewer ", "Rating"
+                "Paper Name", "Reviewer ", "Rating", "Review status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -176,6 +176,7 @@ public class AuthorPapers extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(1).setPreferredWidth(5);
             jTable2.getColumnModel().getColumn(2).setResizable(false);
             jTable2.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jTabbedPane1.addTab("Reviewed Papers", jScrollPane2);
@@ -468,7 +469,7 @@ public class AuthorPapers extends javax.swing.JFrame {
             AuthorController AC= new AuthorController();
             JComboBox PTBox =new JComboBox();   
             JPanel myPanel = new JPanel();
-            ArrayList<Reviews> al = AC.ReviewedPaperCon(ID);
+            ArrayList<Reviews> al = AC.ReviewedDonePaperCon(ID);
             for (int i=0; i< al.size();i++)
             {
                 PTBox.addItem(al.get(i).GetReviewPaperName());
@@ -476,7 +477,7 @@ public class AuthorPapers extends javax.swing.JFrame {
             myPanel.add(new JLabel("Paper Name:"));
             myPanel.add(PTBox);
             myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select Reviewer's Review to view", JOptionPane.OK_CANCEL_OPTION);
+            int n=JOptionPane.showConfirmDialog(null, myPanel,"Select the paper's review you want to view", JOptionPane.OK_CANCEL_OPTION);
             
             
              if(n == JOptionPane.OK_OPTION){ // 

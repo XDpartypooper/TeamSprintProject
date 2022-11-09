@@ -68,7 +68,33 @@ public class Author extends UserProfile{
         ResultSet rs =null;
    
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating from papers inner join reviews on reviews.PaperID=papers.PaperID where AuthorID=? or co_AuthorID=?");  
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating,Reviews.Review_status from papers inner join reviews on reviews.PaperID=papers.PaperID where AuthorID=? or co_AuthorID=?");  
+        mySmt.setString(1, ID);
+        mySmt.setString(2, ID);//author and co author can view reviewed paper
+        
+        rs = mySmt.executeQuery();
+        
+        ArrayList<Reviews> al = new ArrayList<Reviews>();
+        
+         while(rs.next()) //find works
+         {
+                Reviews R = new Reviews(rs.getString(1),GetNameDB(rs.getString(2)),rs.getString(3),rs.getInt(4),rs.getInt(5));
+                //paper name, reviewer(id), review , Rating null =0, rating status
+                al.add(R);                      
+         }    
+  
+         conn.close();
+         return al;  
+    }
+     
+     public ArrayList ReviewedDonePaper(String ID) throws SQLException
+    {
+        //get all authors except self 
+         java.sql.Connection conn=null;
+        ResultSet rs =null;
+   
+        conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating from papers inner join reviews on reviews.PaperID=papers.PaperID where Review_status=1 and AuthorID=? or co_AuthorID=?");  
         mySmt.setString(1, ID);
         mySmt.setString(2, ID);//author and co author can view reviewed paper
         

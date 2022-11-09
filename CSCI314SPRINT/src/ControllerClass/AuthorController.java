@@ -38,8 +38,14 @@ public class AuthorController {
         al=A.ReviewedPaper(ID);
         return al;  
     }
+    public ArrayList ReviewedDonePaperCon(String ID) throws SQLException
+    {
+        ArrayList al=null;
+        Author A=new Author();
+        al=A.ReviewedDonePaper(ID);
+        return al;  
+    }
 
-    
     
     
     public ArrayList ViewPaperCon(String word,String ID) throws SQLException 

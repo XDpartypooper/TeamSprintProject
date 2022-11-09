@@ -58,4 +58,4 @@ added working bidding system for reviewer side and Conchair side-Roy 5/11/22
 added reviewer submit/update/delete review -Roy 6/11/22 
 
 added auto allocated , manual delete/update allocation,
-con chair accept or reject papers- Roy 9/11/22
+con chair accept or reject reviews- Roy 9/11/22

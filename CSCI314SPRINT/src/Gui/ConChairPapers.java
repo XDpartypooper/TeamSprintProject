@@ -438,13 +438,14 @@ public class ConChairPapers extends javax.swing.JFrame {
             
             
             ArrayList<Papers> al = CCC.ViewPaperCon(2,null,null);// view papers with reivewers
-            PTBox.addItem("Null");//name of paper
+           
             for (int i=0; i< al.size();i++)
             {
                 PTBox.addItem(al.get(i).GetPName());//name of paper
             }
             
             ArrayList<Reviewer> al2 = CCC.getReviewersCon();//get the user name of AUTHORS
+            PTBox1.addItem("");//name of paper
             for (int i=0; i< al2.size();i++)
             {
                 PTBox1.addItem(al2.get(i).GetName());//get name of author
@@ -468,6 +469,7 @@ public class ConChairPapers extends javax.swing.JFrame {
              
              if(n==JOptionPane.YES_OPTION){
              CCC.UpdatePaperCon( PaperName, Reviewer);
+             refreshSearch("");
              }
             
         } catch (SQLException ex) {

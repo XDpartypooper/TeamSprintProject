@@ -470,6 +470,7 @@ public class ConChairPapers extends javax.swing.JFrame {
              if(n==JOptionPane.YES_OPTION){
              CCC.UpdatePaperCon( PaperName, Reviewer);
              refreshSearch("");
+             JOptionPane.showMessageDialog(null,"paper succesfully updated.");
              }
             
         } catch (SQLException ex) {

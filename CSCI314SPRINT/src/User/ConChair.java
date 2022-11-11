@@ -80,7 +80,7 @@ public class ConChair extends UserProfile{
         ResultSet rs =null;
    
         conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sprint","root","pass");
-        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating,Reviews.Review_status from papers inner join reviews on reviews.PaperID=papers.PaperID where Review_status=0 ");  
+        PreparedStatement mySmt = conn.prepareStatement("select papers.PaperName, Reviews.ReviewerID,Reviews.Review,Reviews.Rating,Reviews.Review_status from papers inner join reviews on reviews.PaperID=papers.PaperID where Review_status=0");  
 
         rs = mySmt.executeQuery();
         
@@ -266,14 +266,14 @@ public class ConChair extends UserProfile{
             rs = mySmt.executeQuery();
                 if(rs.next()) //exsist
                 {
-                    mySmt = conn.prepareStatement("update Reviews set ReviewerID=?,Review = null, Rating=10,Review_status=0  where PaperID=?");
+                    mySmt = conn.prepareStatement("update Reviews set ReviewerID=?,Review = null, Rating=10,Review_status=-1  where PaperID=?");
                     mySmt.setString(1, GetUserID(Reviewer));//
                     mySmt.setString(2, paperID);//g
                     mySmt.executeUpdate();  
                 }
                 else//create new entry               
                 {
-                   mySmt = conn.prepareStatement("INSERT INTO Reviews (PaperID,ReviewerID,Review,Rating,Review_status) VALUES (?,?,null,null,0)"); 
+                   mySmt = conn.prepareStatement("INSERT INTO Reviews (PaperID,ReviewerID,Review,Rating,Review_status) VALUES (?,?,null,null,-1)"); 
                    mySmt.setString(1, paperID);//
                    mySmt.setString(2, GetUserID(Reviewer));//get name from ID id
                    mySmt.executeUpdate();

@@ -171,7 +171,7 @@ public class Reviewer extends UserProfile{
          {                                
             paperID = rs.getString(4);  //get PaperID   
             
-            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=10 , Review_status=0  where PaperID=?"); 
+            mySmt = conn.prepareStatement("update Reviews set Review = null, Rating=10 , Review_status=-1  where PaperID=?"); 
             mySmt.setString(1, paperID);//
             mySmt.executeUpdate();      
          }    

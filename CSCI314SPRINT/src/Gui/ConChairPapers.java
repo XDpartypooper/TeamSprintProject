@@ -579,12 +579,9 @@ public class ConChairPapers extends javax.swing.JFrame {
                               else if("Reject".equals(Review_status))
                               {
                                  review_s=2; //reject
-                              }
-                               
-                                
-                               
+                              } 
                                CCC.UpdatePaperStatusCon(PaperName,review_s);
-                               
+                               refreshSearch("");
                          }
                     }
                 }

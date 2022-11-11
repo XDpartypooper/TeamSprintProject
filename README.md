@@ -59,3 +59,6 @@ added reviewer submit/update/delete review -Roy 6/11/22
 
 added auto allocated , manual delete/update allocation,
 con chair accept or reject reviews- Roy 9/11/22
+
+
+Bug fixes - Roy 11/11/22

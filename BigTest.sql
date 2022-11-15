@@ -156,10 +156,32 @@ INSERT INTO Users VALUES ('Zhongli','Password4','Genshin7@uow.com','Reviewer','0
 INSERT INTO Users VALUES ('Kaveh','Password4','Genshin8@uow.com','Reviewer','079');
 INSERT INTO Users VALUES ('Kokomi','Password4','Genshin9@uow.com','Reviewer','080');
 INSERT INTO Users VALUES ('Shenhe','Password4','Genshin10@uow.com','Reviewer','081');
-
 INSERT INTO Users VALUES ('Lumine','Password4','Genshin11@uow.com','Reviewer','082');
 INSERT INTO Users VALUES ('Nahida','Password4','Genshin12@uow.com','Reviewer','083');
 
+-- +more sysad and conchair
+INSERT INTO Users VALUES ('Kevin','Password1','Mantis1@uow.com','System Admin','084');
+INSERT INTO Users VALUES ('Elysia','Password1','Mantis2@uow.com','System Admin','085');
+INSERT INTO Users VALUES ('Aponia','Password1','Mantis3@uow.com','System Admin','086');
+INSERT INTO Users VALUES ('Eden','Password1','Mantis4@uow.com','System Admin','087');
+INSERT INTO Users VALUES ('VillV','Password1','Mantis5@uow.com','System Admin','088');
+INSERT INTO Users VALUES ('Kalpas','Password1','Mantis6@uow.com','System Admin','089');
+INSERT INTO Users VALUES ('Su','Password1','Mantis7@uow.com','System Admin','090');
+INSERT INTO Users VALUES ('Sakura','Password1','Mantis8@uow.com','System Admin','091');
+INSERT INTO Users VALUES ('Kosma','Password1','Manti9@uow.com','System Admin','092');
+INSERT INTO Users VALUES ('Mobius','Password1','Mantis10@uow.com','System Admin','093');
+INSERT INTO Users VALUES ('Griseo','Password1','Mantis11@uow.com','System Admin','094');
+INSERT INTO Users VALUES ('Hua','Password1','Mantis12@uow.com','System Admin','095');
+INSERT INTO Users VALUES ('Felis','Password1','Mantis13@uow.com','System Admin','096');
+INSERT INTO Users VALUES ('Bronya','Password3','Valkyria1@uow.com','Conference Chair','097');
+INSERT INTO Users VALUES ('Seele','Password3','Valkyria2@uow.com','Conference Chair','098');
+INSERT INTO Users VALUES ('Rozaliya','Password3','Valkyria3@uow.com','Conference Chair','099');
+INSERT INTO Users VALUES ('Liliya','Password3','Valkyria4@uow.com','Conference Chair','100');
+INSERT INTO Users VALUES ('Durandal','Password3','Valkyria5@uow.com','Conference Chair','101');
+INSERT INTO Users VALUES ('Rita','Password3','Valkyria6@uow.com','Conference Chair','102');
+INSERT INTO Users VALUES ('Theresa','Password3','Valkyria7@uow.com','Conference Chair','103');
+INSERT INTO Users VALUES ('Kiana','Password3','Valkyria8@uow.com','Conference Chair','104');
+INSERT INTO Users VALUES ('Mei','Password3','Valkyria9@uow.com','Conference Chair','105');
 
 -- dummy data for reviewer work load 
 INSERT INTO Reviewer VALUES ('004', null);

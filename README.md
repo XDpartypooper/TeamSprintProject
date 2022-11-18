@@ -1,8 +1,13 @@
 # TeamSprintProject
-IF CSCI314SPRINT doesnt work Try using The RAR ver
+IF CSCI314SPRINT doesnt work Try using The ZIP ver
 
-LETSSS GOOOOO team sprint 
-
+CSIT314 project - Team sprint
+===========================================================
+A Paper magement system where an auther can submit their paper for reviewing
+Reviews can review author's papers
+A conference chair moderate the paper's allocation and reviews
+And finally system admin able to control a User's profile and profile types
+===========================================================
 EDIT test - by Roy 15/10/22
 
 just a simple menu with buttons click to close the login page and open the "menu" page

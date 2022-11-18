@@ -6,8 +6,11 @@ CSIT314 project - Team sprint
 ------------------------------------------
 
 A Paper magement system where an Author can submit their paper for reviewing
+
 Reviews can review author's papers
+
 A conference chair moderate the paper's allocation and reviews
+
 And finally system admin able to control a User's profile and profile types
 
 ------------------------------------------

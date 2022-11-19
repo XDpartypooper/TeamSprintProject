@@ -14,6 +14,7 @@ A conference chair moderate the paper's allocation and reviews
 And finally system admin able to control a User's profile and profile types
 
 ------------------------------------------
+P.S this is my first semi big/ big type of program, previously i only did small programs that uses 1 java files :)
 
 EDIT test - by Roy 15/10/22
 

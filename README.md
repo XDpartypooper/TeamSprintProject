@@ -2,6 +2,7 @@
 IF CSCI314SPRINT doesnt work Try using The ZIP ver
 
 CSIT314 project - Team sprint
+
 QA testers: Faris and Tuna 
 thx :)
 

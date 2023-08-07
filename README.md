@@ -3,8 +3,7 @@ IF CSCI314SPRINT doesnt work Try using The ZIP ver
 
 CSIT314 project - Team sprint
 
-QA testers: Faris and Tuna 
-thx :)
+shout out to my wonderful QA testers: Faris and Tuna 
 
 ------------------------------------------
 
